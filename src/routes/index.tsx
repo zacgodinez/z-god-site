@@ -1,12 +1,14 @@
-import { component$ } from '@builder.io/qwik';
-import type { DocumentHead } from '@builder.io/qwik-city';
-import { Link } from '@builder.io/qwik-city';
+import { component$ } from "@builder.io/qwik";
+import type { DocumentHead } from "@builder.io/qwik-city";
+import { Link } from "@builder.io/qwik-city";
+
+import * as styles from "./index.css";
 
 export default component$(() => {
   return (
     <div>
-      <h1>
-        Welcome to Qwik <span class='lightning'>⚡️</span>
+      <h1 class={styles.blueClass}>
+        Welcome to Qwik <span class="lightning">⚡️</span>
       </h1>
 
       <ul>
@@ -23,7 +25,7 @@ export default component$(() => {
 
       <h2>Commands</h2>
 
-      <table class='commands'>
+      <table class="commands">
         <tr>
           <td>
             <code>npm run dev</code>
@@ -52,15 +54,15 @@ export default component$(() => {
 
       <h2>Add Integrations</h2>
 
-      <table class='commands'>
+      <table class="commands">
         <tr>
           <td>
             <code>npm run qwik add azure-swa</code>
           </td>
           <td>
             <a
-              href='https://learn.microsoft.com/azure/static-web-apps/overview'
-              target='_blank'
+              href="https://learn.microsoft.com/azure/static-web-apps/overview"
+              target="_blank"
             >
               Azure Static Web Apps
             </a>
@@ -71,7 +73,7 @@ export default component$(() => {
             <code>npm run qwik add cloudflare-pages</code>
           </td>
           <td>
-            <a href='https://developers.cloudflare.com/pages' target='_blank'>
+            <a href="https://developers.cloudflare.com/pages" target="_blank">
               Cloudflare Pages Server
             </a>
           </td>
@@ -81,7 +83,7 @@ export default component$(() => {
             <code>npm run qwik add express</code>
           </td>
           <td>
-            <a href='https://expressjs.com/' target='_blank'>
+            <a href="https://expressjs.com/" target="_blank">
               Nodejs Express Server
             </a>
           </td>
@@ -91,7 +93,7 @@ export default component$(() => {
             <code>npm run qwik add netlify-edge</code>
           </td>
           <td>
-            <a href='https://docs.netlify.com/' target='_blank'>
+            <a href="https://docs.netlify.com/" target="_blank">
               Netlify Edge Functions
             </a>
           </td>
@@ -102,8 +104,8 @@ export default component$(() => {
           </td>
           <td>
             <a
-              href='https://qwik.builder.io/qwikcity/static-site-generation/overview/'
-              target='_blank'
+              href="https://qwik.builder.io/qwikcity/static-site-generation/overview/"
+              target="_blank"
             >
               Static Site Generation (SSG)
             </a>
@@ -115,8 +117,8 @@ export default component$(() => {
           </td>
           <td>
             <a
-              href='https://vercel.com/features/edge-functions'
-              target='_blank'
+              href="https://vercel.com/features/edge-functions"
+              target="_blank"
             >
               Vercel Edge Functions
             </a>
@@ -129,31 +131,31 @@ export default component$(() => {
       <ul>
         <li>
           <span>Questions or just want to say hi? </span>
-          <a href='https://qwik.builder.io/chat' target='_blank'>
+          <a href="https://qwik.builder.io/chat" target="_blank">
             Chat on discord!
           </a>
         </li>
         <li>
           <span>Follow </span>
-          <a href='https://twitter.com/QwikDev' target='_blank'>
+          <a href="https://twitter.com/QwikDev" target="_blank">
             @QwikDev
           </a>
           <span> on Twitter</span>
         </li>
         <li>
           <span>Open issues and contribute on </span>
-          <a href='https://github.com/BuilderIO/qwik' target='_blank'>
+          <a href="https://github.com/BuilderIO/qwik" target="_blank">
             GitHub
           </a>
         </li>
         <li>
           <span>Watch </span>
-          <a href='https://qwik.builder.io/media/' target='_blank'>
+          <a href="https://qwik.builder.io/media/" target="_blank">
             Presentations, Podcasts, Videos, etc.
           </a>
         </li>
       </ul>
-      <Link class='mindblow' href='/flower/'>
+      <Link class="mindblow" href="/flower/">
         Blow my mind 🤯
       </Link>
     </div>
@@ -161,11 +163,11 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-  title: 'Welcome to Qwik',
+  title: "Welcome to Qwik",
   meta: [
     {
-      name: 'description',
-      content: 'Qwik site description',
+      name: "description",
+      content: "Qwik site description",
     },
   ],
 };
