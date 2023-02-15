@@ -1,13 +1,11 @@
 import { component$, Slot } from "@builder.io/qwik";
-// import { component$, Slot, useStyles$ } from "@builder.io/qwik";
 import Header from "../components/header/header";
 import "../components/system/global.css";
-// import style, {Header} from '../components/system/global.css'
 
 export default component$(() => {
   return (
     <>
-      <main class="bg-gradient-to-r from-pink-400 to-purple-200">
+      <main>
         <Header />
         <section>
           <Slot />
