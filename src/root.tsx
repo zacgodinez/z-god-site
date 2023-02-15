@@ -6,7 +6,8 @@ import {
 } from "@builder.io/qwik-city";
 import { RouterHead } from "./components/router-head/router-head";
 
-import { lightThemeClass, darkThemeClass } from "./components/system/theme.css";
+import { lightThemeClass } from "./components/system/theme.css";
+// import { lightThemeClass, darkThemeClass } from "./components/system/theme.css";
 
 import globalStyles from "./global.css?inline";
 
