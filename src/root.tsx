@@ -1,15 +1,8 @@
-import { component$, useStyles$ } from "@builder.io/qwik";
-import {
-  QwikCityProvider,
-  RouterOutlet,
-  ServiceWorkerRegister,
-} from "@builder.io/qwik-city";
-import { RouterHead } from "./components/router-head/router-head";
+import { component$ } from '@builder.io/qwik';
+import { QwikCityProvider, RouterOutlet, ServiceWorkerRegister } from '@builder.io/qwik-city';
+import { RouterHead } from './components/router-head/router-head';
 
-import { lightThemeClass } from "./components/system/theme.css";
-// import { lightThemeClass, darkThemeClass } from "./components/system/theme.css";
-
-import globalStyles from "./global.css?inline";
+import './global.css';
 
 export default component$(() => {
   /**
@@ -18,7 +11,6 @@ export default component$(() => {
    *
    * Dont remove the `<head>` and `<body>` elements.
    */
-  useStyles$(globalStyles);
 
   return (
     <QwikCityProvider>
@@ -27,7 +19,7 @@ export default component$(() => {
         <link rel="manifest" href="/manifest.json" />
         <RouterHead />
       </head>
-      <body lang="en" class={lightThemeClass}>
+      <body lang="en">
         <RouterOutlet />
         <ServiceWorkerRegister />
       </body>
