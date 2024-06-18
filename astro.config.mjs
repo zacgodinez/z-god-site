@@ -26,9 +26,8 @@ const whenExternalScripts = (items = []) =>
 
 export default defineConfig({
   site: 'https://zacgodinez.github.io',
-  base: 'z-god-site',
+  base: '/',
   output: 'static',
-
   integrations: [
     tailwind({
       applyBaseStyles: false,
