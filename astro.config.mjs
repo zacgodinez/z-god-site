@@ -29,7 +29,7 @@ export default defineConfig({
   base: '/z-god-site',
   // If the website uses trailing slashes in the URLs
   // trailingSlash: false,
-  output: 'static',
+  // output: 'static',
   integrations: [
     tailwind({
       applyBaseStyles: false,
