@@ -26,7 +26,7 @@ const whenExternalScripts = (items = []) =>
 
 export default defineConfig({
   site: 'https://zacgodinez.github.io',
-  base: '/',
+  base: '/_astro',
   output: 'static',
   integrations: [
     tailwind({
