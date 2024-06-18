@@ -25,10 +25,8 @@ const whenExternalScripts = (items = []) =>
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
-  // origin: 'https://zacgodinez.github.io',
-  // basePathname: '/astrowind',
-  site: 'https://zacgodinez.gitlab.io',
-  base: '/z-god-site/',
+  site: 'https://zacgodinez.github.io',
+  base: '/z-god-site',
   // If the website uses trailing slashes in the URLs
   // trailingSlash: false,
   output: 'static',
