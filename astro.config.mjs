@@ -26,7 +26,7 @@ const whenExternalScripts = (items = []) =>
 
 export default defineConfig({
   site: 'https://zacgodinez.github.io/z-god-site',
-  base: '/',
+  base: '/z-god-site',
   // If the website uses trailing slashes in the URLs
   // trailingSlash: false,
   output: 'static',
