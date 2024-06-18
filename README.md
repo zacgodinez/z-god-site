@@ -1,3 +1,5 @@
 # 🚀 ZG
 
-Template: <https://github.com/onwidget/astrowind>
+## Astrowind template
+
+[Astrowind](https://github.com/onwidget/astrowind)
