@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: 'JetBrains Mono', Menlo, Consolas;
+  font-family: 'JetBrains Mono';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-decoration-thickness: 72;
+}
+
 @layer utilities {
   .bg-page {
     background-color: var(--aw-color-bg-page);
