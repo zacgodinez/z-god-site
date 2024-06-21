@@ -1,0 +1,67 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="cv-styles.css">
+  </head>
+  <body>
+    <hr>
+<h2>title: 'CV'
+layout: '~/layouts/MarkdownLayout.astro'</h2>
+<p><em>Last updated</em>: June 21, 2024</p>
+<p>Please read these terms and conditions carefully before using Our Service.</p>
+<h1>md-to-pdf</h1>
+<p>A web service for converting markdown to PDF</p>
+<h2>Web UI</h2>
+<p>For quick experimentation, you can use <a href="https://md-to-pdf.fly.dev">the web version</a>.
+Just paste your markdown and download the converted PDF.</p>
+<h2>API</h2>
+<p>You can convert markdown by sending a <code>POST</code> request to <code>https://md-to-pdf.fly.dev</code>.</p>
+<pre><code>curl --data-urlencode 'markdown=# Heading 1' --output md-to-pdf.pdf https://md-to-pdf.fly.dev
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>markdown</code></td>
+<td>Required</td>
+<td>The markdown content to convert</td>
+</tr>
+<tr>
+<td><code>css</code></td>
+<td>Optional</td>
+<td>CSS styles to apply</td>
+</tr>
+<tr>
+<td><code>engine</code></td>
+<td>Optional</td>
+<td>The PDF conversion engine, can be <code>weasyprint</code>, <code>wkhtmltopdf</code> or <code>pdflatex</code>, defaults to <code>weasyprint</code></td>
+</tr>
+</tbody>
+</table>
+<p>Send data from files like this:</p>
+<pre><code>curl --data-urlencode &quot;markdown=$(cat example.md)&quot;
+</code></pre>
+<h2>Deploy</h2>
+<p>A prebuilt container image is available at <a href="https://hub.docker.com/r/spawnia/md-to-pdf">Docker Hub</a>.
+You can run it yourself like this:</p>
+<pre><code>docker run --publish=8000:8000 spawnia/md-to-pdf
+</code></pre>
+<h2>Built with</h2>
+<ul>
+<li><a href="https://rocket.rs">Rocket - a web framework for Rust</a></li>
+<li><a href="https://pandoc.org">Pandoc - a universal document converter</a></li>
+<li><a href="https://codemirror.net">Codemirror - a text editor for the browser</a></li>
+</ul>
+
+  </body>
+  </html>
