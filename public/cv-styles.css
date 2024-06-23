@@ -1,5 +1,11 @@
 /* You can add some CSS styles too, if you want. */
 
+body {
+  font-family: 'JetBrains Mono', Menlo, Consolas, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 h1,
 h2 {
   color: MidnightBlue;
@@ -19,4 +25,50 @@ th,
 td {
   text-align: left;
   padding: 1em;
+}
+
+/*----------------------------
+    Two column layout stuff
+  ---------------------------*/
+/* Main Section Headings and sub headings */
+article .begin-examples ~ h2,
+article .begin-examples ~ h2 + p {
+  width: 100%;
+  clear: both;
+}
+
+/* Columns */
+article .begin-examples ~ h3,
+article .begin-examples ~ p,
+article .begin-examples ~ .highlight {
+  width: 50%;
+}
+
+/* Left Column */
+article .begin-examples ~ h3,
+article .begin-examples ~ p {
+  float: left;
+  box-sizing: border-box;
+  padding-right: 1rem;
+  clear: both;
+}
+
+/* Right Column */
+article .begin-examples ~ .highlight {
+  float: right;
+  clear: right;
+  margin-bottom: 1rem;
+}
+
+/* Reset */
+article .end-examples ~ p,
+article .end-examples ~ h3,
+article .end-examples ~ .highlight {
+  width: auto;
+  float: none;
+  clear: none;
+}
+
+.end-examples {
+  clear: both;
 }

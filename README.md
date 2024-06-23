@@ -1,5 +1,3 @@
 # 🚀 ZG
 
-## Astrowind template
-
-[Astrowind](https://github.com/onwidget/astrowind)
+Kick started from [Astrowind](https://github.com/onwidget/astrowind)

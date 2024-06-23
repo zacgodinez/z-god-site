@@ -3,7 +3,8 @@
 const fs = require('fs');
 const { exec } = require('child_process');
 const markdownIt = require('markdown-it');
-const md = new markdownIt();
+// const md = new markdownIt();
+const md = new markdownIt({ html: true });
 
 // Paths to your files
 const markdownFile = './src/pages/cv.md';
@@ -28,7 +29,9 @@ const fullHtmlContent = `
     <link rel="stylesheet" href="${cssFile}">
   </head>
   <body>
+  <article>
     ${htmlContent}
+  </article>
   </body>
   </html>
 `;
@@ -46,5 +49,5 @@ exec(`weasyprint ${htmlFile} ${pdfFile}`, (error, stdout, stderr) => {
     console.error(`stderr: ${stderr}`);
     return;
   }
-  console.log(`stdout: ${stdout}`);
+  console.log(`✅ done: ${stdout}`);
 });
