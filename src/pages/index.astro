@@ -3,43 +3,27 @@ import Layout from '~/layouts/PageLayout.astro';
 
 import ToggleTheme from '~/components/common/ToggleTheme';
 
-// import Hero from '~/components/widgets/Hero.astro';
-// import Note from '~/components/widgets/Note.astro';
-// import Features from '~/components/widgets/Features.astro';
-// import Features2 from '~/components/widgets/Features2.astro';
-// import Steps from '~/components/widgets/Steps.astro';
-// import Content from '~/components/widgets/Content.astro';
-// import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
-// import FAQs from '~/components/widgets/FAQs.astro';
-// import Stats from '~/components/widgets/Stats.astro';
-// import CallToAction from '~/components/widgets/CallToAction.astro';
-
-// const options = [
-//   { value: 'light', label: 'Light' },
-//   { value: 'dark', label: 'Dark' },
-//   { value: 'system', label: 'System' },
-// ];
-
 const metadata = {
-  title: 'AstroWind — Free template for creating websites with Astro + Tailwind CSS',
+  title: 'ZG.codes — Personal blog',
   ignoreTitleTemplate: true,
 };
 ---
 
 <Layout metadata={metadata}>
-  <div class="w-full flex items-center justify-center pt-20 pb-20 bg-slate-100 dark:bg-slate-900 min-h-screen">
+  <div class="flex min-h-screen w-full items-center justify-center bg-slate-100 py-20 dark:bg-slate-900">
     <div class="flex flex-col">
-      <h1 class="text-3xl font-black mb-4 text-primary">ZG codes</h1>
+      <h1 class="mb-4 text-3xl font-black text-primary">ZG codes</h1>
+      <h1 class="mb-4 text-3xl font-black text-primary-action">ZG codes</h1>
 
-      <div class="bg-white p-6 rounded-lg shadow-lg-- w-full max-w-xs md:max-w-md lg:max-w-lg">
-        <h1 class="text-3xl font-black mb-4">theme switcher</h1>
+      <div class="w-full max-w-xs rounded-lg bg-white p-6 shadow-lg md:max-w-md lg:max-w-lg">
+        <h1 class="mb-4 text-3xl font-black">theme switcher</h1>
         <div>
           <p class="text-center text-gray-600">
             This layout is centered both vertically and horizontally on mobile, tablet, and desktop.
           </p>
         </div>
       </div>
-      <h1 class="text-3xl font-black mb-4">ZG codes</h1>
+      <h1 class="mb-4 text-3xl font-black">ZG codes</h1>
 
       <ToggleTheme client:load />
     </div>

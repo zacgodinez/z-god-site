@@ -1,3 +1,4 @@
+import tailwind from 'eslint-plugin-tailwindcss';
 import astroEslintParser from 'astro-eslint-parser';
 import eslintPluginAstro from 'eslint-plugin-astro';
 import globals from 'globals';
@@ -7,6 +8,7 @@ import typescriptParser from '@typescript-eslint/parser';
 
 export default [
   js.configs.recommended,
+  ...tailwind.configs['flat/recommended'],
   ...eslintPluginAstro.configs['flat/recommended'],
   ...tseslint.configs.recommended,
   {

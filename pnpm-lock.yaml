@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@astrojs/preact':
         specifier: ^3.5.3
-        version: 3.5.3(@babel/core@7.25.2)(preact@10.23.2)(vite@5.3.1(@types/node@20.14.7)(lightningcss@1.25.1)(terser@5.31.0))
+        version: 3.5.3(@babel/core@7.25.2)(preact@10.23.2)(vite@5.4.3(@types/node@20.14.7)(lightningcss@1.25.1)(terser@5.31.0))
       '@astrojs/rss':
         specifier: ^4.0.7
         version: 4.0.7
@@ -105,6 +105,9 @@ importers:
       eslint-plugin-jsx-a11y:
         specifier: ^6.8.0
         version: 6.9.0(eslint@8.57.0)
+      eslint-plugin-tailwindcss:
+        specifier: ^3.17.4
+        version: 3.17.4(tailwindcss@3.4.4)
       globals:
         specifier: ^15.4.0
         version: 15.6.0
@@ -1873,6 +1876,12 @@ packages:
     engines: {node: '>=4.0'}
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
+
+  eslint-plugin-tailwindcss@3.17.4:
+    resolution: {integrity: sha512-gJAEHmCq2XFfUP/+vwEfEJ9igrPeZFg+skeMtsxquSQdxba9XRk5bn0Bp9jxG1VV9/wwPKi1g3ZjItu6MIjhNg==}
+    engines: {node: '>=18.12.0'}
+    peerDependencies:
+      tailwindcss: ^3.4.0
 
   eslint-scope@7.2.2:
     resolution: {integrity: sha512-dOt21O7lTMhDM+X9mB4GX+DZrZtCUJPL/wlcTqxyrx5IvO0IYtILdtrQGQp+8n5S0gwSVmOf9NQrjMOgfQZlIg==}
@@ -4184,11 +4193,11 @@ snapshots:
       '@builder.io/partytown': 0.10.2
       mrmime: 2.0.0
 
-  '@astrojs/preact@3.5.3(@babel/core@7.25.2)(preact@10.23.2)(vite@5.3.1(@types/node@20.14.7)(lightningcss@1.25.1)(terser@5.31.0))':
+  '@astrojs/preact@3.5.3(@babel/core@7.25.2)(preact@10.23.2)(vite@5.4.3(@types/node@20.14.7)(lightningcss@1.25.1)(terser@5.31.0))':
     dependencies:
       '@babel/plugin-transform-react-jsx': 7.25.2(@babel/core@7.25.2)
       '@babel/plugin-transform-react-jsx-development': 7.24.7(@babel/core@7.25.2)
-      '@preact/preset-vite': 2.8.2(@babel/core@7.25.2)(preact@10.23.2)(vite@5.3.1(@types/node@20.14.7)(lightningcss@1.25.1)(terser@5.31.0))
+      '@preact/preset-vite': 2.8.2(@babel/core@7.25.2)(preact@10.23.2)(vite@5.4.3(@types/node@20.14.7)(lightningcss@1.25.1)(terser@5.31.0))
       '@preact/signals': 1.3.0(preact@10.23.2)
       babel-plugin-transform-hook-names: 1.0.2(@babel/core@7.25.2)
       preact: 10.23.2
@@ -4828,12 +4837,12 @@ snapshots:
       deepmerge-ts: 7.0.1
       fast-glob: 3.3.2
 
-  '@preact/preset-vite@2.8.2(@babel/core@7.25.2)(preact@10.23.2)(vite@5.3.1(@types/node@20.14.7)(lightningcss@1.25.1)(terser@5.31.0))':
+  '@preact/preset-vite@2.8.2(@babel/core@7.25.2)(preact@10.23.2)(vite@5.4.3(@types/node@20.14.7)(lightningcss@1.25.1)(terser@5.31.0))':
     dependencies:
       '@babel/core': 7.25.2
       '@babel/plugin-transform-react-jsx': 7.25.2(@babel/core@7.25.2)
       '@babel/plugin-transform-react-jsx-development': 7.24.7(@babel/core@7.25.2)
-      '@prefresh/vite': 2.4.6(preact@10.23.2)(vite@5.3.1(@types/node@20.14.7)(lightningcss@1.25.1)(terser@5.31.0))
+      '@prefresh/vite': 2.4.6(preact@10.23.2)(vite@5.4.3(@types/node@20.14.7)(lightningcss@1.25.1)(terser@5.31.0))
       '@rollup/pluginutils': 4.2.1
       babel-plugin-transform-hook-names: 1.0.2(@babel/core@7.25.2)
       debug: 4.3.6
@@ -4843,7 +4852,7 @@ snapshots:
       resolve: 1.22.8
       source-map: 0.7.4
       stack-trace: 1.0.0-pre2
-      vite: 5.3.1(@types/node@20.14.7)(lightningcss@1.25.1)(terser@5.31.0)
+      vite: 5.4.3(@types/node@20.14.7)(lightningcss@1.25.1)(terser@5.31.0)
     transitivePeerDependencies:
       - preact
       - supports-color
@@ -4863,7 +4872,7 @@ snapshots:
 
   '@prefresh/utils@1.2.0': {}
 
-  '@prefresh/vite@2.4.6(preact@10.23.2)(vite@5.3.1(@types/node@20.14.7)(lightningcss@1.25.1)(terser@5.31.0))':
+  '@prefresh/vite@2.4.6(preact@10.23.2)(vite@5.4.3(@types/node@20.14.7)(lightningcss@1.25.1)(terser@5.31.0))':
     dependencies:
       '@babel/core': 7.25.2
       '@prefresh/babel-plugin': 0.5.1
@@ -4871,7 +4880,7 @@ snapshots:
       '@prefresh/utils': 1.2.0
       '@rollup/pluginutils': 4.2.1
       preact: 10.23.2
-      vite: 5.3.1(@types/node@20.14.7)(lightningcss@1.25.1)(terser@5.31.0)
+      vite: 5.4.3(@types/node@20.14.7)(lightningcss@1.25.1)(terser@5.31.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -6207,6 +6216,12 @@ snapshots:
       object.fromentries: 2.0.8
       safe-regex-test: 1.0.3
       string.prototype.includes: 2.0.0
+
+  eslint-plugin-tailwindcss@3.17.4(tailwindcss@3.4.4):
+    dependencies:
+      fast-glob: 3.3.2
+      postcss: 8.4.45
+      tailwindcss: 3.4.4
 
   eslint-scope@7.2.2:
     dependencies:
