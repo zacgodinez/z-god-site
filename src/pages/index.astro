@@ -1,7 +1,7 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 
-import ToggleTheme from '~/components/common/ToggleTheme.astro';
+import ToggleTheme from '~/components/common/ToggleTheme';
 
 // import Hero from '~/components/widgets/Hero.astro';
 // import Note from '~/components/widgets/Note.astro';
@@ -41,7 +41,7 @@ const metadata = {
       </div>
       <h1 class="text-3xl font-black mb-4">ZG codes</h1>
 
-      <ToggleTheme iconClass="w-6 h-6 md:w-5 md:h-5 md:inline-block" />
+      <ToggleTheme client:load />
     </div>
   </div>
 </Layout>
