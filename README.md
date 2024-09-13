@@ -1,3 +1,3 @@
-# 🚀 ZG
+# 🚀 ZG.codes
 
-Kick started from [Astrowind](https://github.com/onwidget/astrowind)
+Personal blog built in [Astro](https://astro.build/)

@@ -58,10 +58,5 @@ export default function ToggleTheme() {
     loadFromLocalStorage();
   }, []);
 
-  return (
-    <div>
-      <p>Selected Theme: {selectedOption ? selectedOption.label : 'None'}</p>
-      <DropDown onSelectedOption={handleOptionSelected} selectedOption={selectedOption} options={themeOptions} />
-    </div>
-  );
+  return <DropDown onSelectedOption={handleOptionSelected} selectedOption={selectedOption} options={themeOptions} />;
 }

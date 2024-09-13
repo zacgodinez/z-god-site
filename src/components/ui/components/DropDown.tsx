@@ -1,4 +1,4 @@
-import { useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 
 export interface Option {
   value: string;
@@ -13,6 +13,7 @@ export interface Props {
 }
 
 export default function DropDown({ options, selectedOption, placeholder = 'select', onSelectedOption }: Props) {
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
@@ -24,8 +25,21 @@ export default function DropDown({ options, selectedOption, placeholder = 'selec
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div class="relative inline-block w-full max-w-[200px]">
+    <div ref={dropdownRef} class="relative inline-block w-full max-w-[200px]">
       <button
         onClick={toggleDropdown}
         class="w-full bg-white border border-gray-300 rounded-md py-2 px-4 text-left focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200"
@@ -43,9 +57,18 @@ export default function DropDown({ options, selectedOption, placeholder = 'selec
             <div
               key={option.value}
               onClick={() => selectOption(option)}
-              class="px-4 py-2 cursor-pointer hover:bg-gray-100"
+              class="px-4 py-2 cursor-pointer hover:bg-gray-100 flex justify-between items-center"
             >
-              {option.label}
+              <span>{option.label}</span>
+              {selectedOption?.value === option.value && (
+                <svg class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.707a1 1 0 00-1.414-1.414l-7.086 7.086L4.707 9.207a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              )}
             </div>
           ))}
         </div>
