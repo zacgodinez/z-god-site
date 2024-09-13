@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* font-family: 'JetBrains Mono', Menlo, Consolas;
-  font-family: 'JetBrains Mono'; */
-/* font-family: 'Geist Mono', monospace; */
-
 body {
   font-family: 'Geist Mono', monospace;
   -webkit-font-smoothing: antialiased;
