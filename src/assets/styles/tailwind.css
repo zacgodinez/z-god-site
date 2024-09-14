@@ -57,7 +57,7 @@ a:has(> img) {
 }
 
 a {
-  @apply text-primary-action decoration-1 underline hover:text-primary/90 underline-offset-4 !transition-all;
+  @apply hover:text-primary-action decoration-1 underline underline-offset-4 !transition-all;
   @apply focus:outline-none outline-2 outline-offset-2 focus-visible:outline !outline-primary;
 }
 

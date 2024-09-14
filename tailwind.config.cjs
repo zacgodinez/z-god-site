@@ -6,8 +6,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        border: 'hsl(var(--border))',
         ring: 'hsl(var(--ring))',
+        border: {
+          DEFAULT: 'hsl(var(--border))',
+          secondary: 'hsl(var(--border-secondary))',
+        },
         background: {
           DEFAULT: 'hsl(var(--background))',
           secondary: 'hsl(var(--background-secondary))',
