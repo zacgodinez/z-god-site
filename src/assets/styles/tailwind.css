@@ -9,14 +9,33 @@ body {
   text-decoration-thickness: 72;
 }
 
+.zg-gradient {
+  background: linear-gradient(-45deg, #a855f7, #e73c7e, #23a6d5, #6366f1);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground text-sm;
   }
 }
+
 @media prefers-reduced-motion {
   * {
     animation: none !important;
@@ -26,11 +45,7 @@ body {
 }
 
 * {
-  @apply selection:bg-primary;
-}
-
-*:not(.focus-none) {
-  @apply outline-2 outline-offset-2 !outline-primary transition-[outline-offset] focus-visible:outline;
+  @apply selection:bg-primary selection:text-white;
 }
 
 *:not(:active):focus-visible {
@@ -39,4 +54,13 @@ body {
 
 a:has(> img) {
   @apply inline-block;
+}
+
+a {
+  @apply text-primary-action decoration-1 underline hover:text-primary/90 underline-offset-4 !transition-all;
+  @apply focus:outline-none outline-2 outline-offset-2 focus-visible:outline !outline-primary;
+}
+
+*:not(.focus-none) {
+  @apply outline-2 outline-offset-2 !outline-primary transition-[outline-offset] focus-visible:outline;
 }

@@ -8,7 +8,10 @@ module.exports = {
       colors: {
         border: 'hsl(var(--border))',
         ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
+        background: {
+          DEFAULT: 'hsl(var(--background))',
+          secondary: 'hsl(var(--background-secondary))',
+        },
         foreground: 'hsl(var(--foreground))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
@@ -88,81 +91,6 @@ module.exports = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-      },
-      // TODO: customize the font stack to design
-      fontSize: {
-        'text-xs': [
-          '0.75rem', // 12px
-          {
-            lineHeight: '1rem', // 16px
-            letterSpacing: '-0.01em',
-            fontWeight: '400',
-          },
-        ],
-        'text-sm': [
-          '1.5rem', // 14px
-          {
-            lineHeight: '1.25rem', // 20px
-            letterSpacing: '-0.01em',
-            fontWeight: '400',
-          },
-        ],
-        'text-base': [
-          '1rem', // 16px
-          {
-            lineHeight: '1.5rem', // 24px
-            letterSpacing: '-0.01em',
-            fontWeight: '400',
-          },
-        ],
-        'text-lg': [
-          '1.125rem', // 18px
-          {
-            lineHeight: '1.75rem', // 28px
-            letterSpacing: '-0.01em',
-            fontWeight: '400',
-          },
-        ],
-        'text-xl': [
-          '1.25rem', // 20px
-          {
-            lineHeight: '1.75rem', // 28px
-            letterSpacing: '-0.01em',
-            fontWeight: '400',
-          },
-        ],
-        'text-2xl': [
-          '1.5rem', // 24px
-          {
-            lineHeight: '2rem', // 32px
-            letterSpacing: '-0.01em',
-            fontWeight: '400',
-          },
-        ],
-        'text-3xl': [
-          '1.875rem', // 30px
-          {
-            lineHeight: '2.25rem', // 36px
-            letterSpacing: '-0.01em',
-            fontWeight: '400',
-          },
-        ],
-        'text-4xl': [
-          '2.25rem', // 36px
-          {
-            lineHeight: '2.5rem', // 40px
-            letterSpacing: '-0.01em',
-            fontWeight: '500',
-          },
-        ],
-        'text-5xl': [
-          '3rem', // 48px
-          {
-            lineHeight: '1',
-            letterSpacing: '-0.01em',
-            fontWeight: '400',
-          },
-        ],
       },
       fontFamily: {
         sans: ['var(--font-sans, ui-sans-serif)', ...defaultTheme.fontFamily.sans],

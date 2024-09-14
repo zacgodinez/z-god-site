@@ -2,6 +2,7 @@
 import Layout from '~/layouts/PageLayout.astro';
 
 import ToggleTheme from '~/components/common/ToggleTheme';
+import Logo from '~/components/common/Logo.astro';
 
 const metadata = {
   title: 'ZG.codes — Personal blog',
@@ -10,22 +11,56 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <div class="flex min-h-screen w-full items-center justify-center bg-slate-100 py-20 dark:bg-slate-900">
+  <div class="flex min-h-screen w-full items-center justify-center bg-background py-20">
     <div class="flex flex-col">
-      <h1 class="mb-4 text-3xl font-black text-primary">ZG codes</h1>
-      <h1 class="mb-4 text-3xl font-black text-primary-action">ZG codes</h1>
+      <div class="pt-10 opacity-5">
+        <h1 class="mb-4 text-3xl font-black text-primary">ZG codes</h1>
+        <h1 class="mb-4 text-3xl font-black text-primary-action">ZG codes</h1>
+      </div>
 
-      <div class="w-full max-w-xs rounded-lg bg-white p-6 shadow-lg md:max-w-md lg:max-w-lg">
-        <h1 class="mb-4 text-3xl font-black">theme switcher</h1>
-        <div>
-          <p class="text-center text-gray-600">
-            This layout is centered both vertically and horizontally on mobile, tablet, and desktop.
-          </p>
+      <!-- <div class="shadow-lg "> -->
+      <div class="w-full max-w-xs bg-background-secondary p-6 shadow-sm md:max-w-md lg:max-w-xl">
+        <div class="border border-border p-6">
+          <div class="flex w-full justify-center">
+            <Logo />
+          </div>
+          <div class="pt-4">
+            <p class="text-muted-foreground">
+              Hello there, My name is Zac. I'm a dev who enjoys the creative coding and building UI's. I am a crypto
+              enthusiast and am building an open source crypto wallet <a href="#">Z3US.com</a>, you can follow me on <a
+                href="#">X</a
+              >.
+            </p>
+          </div>
+          <div class="pt-6">
+            <h1 class="mb-2 text-xl font-black">Posts</h1>
+            <ul class="flex flex-col gap-4">
+              <li>
+                <p class="text-muted-foreground">
+                  This layout is centered both vertically and horizontally on mobile, tablet, and desktop.
+                </p>
+              </li>
+              <li>
+                <div class="mx-4 mb-4 border-t border-border"></div>
+                <p class="text-muted-foreground">
+                  This layout is centered both vertically and horizontally on mobile, tablet, and desktop.
+                </p>
+              </li>
+              <li>
+                <div class="mx-4 mb-4 border-t border-border"></div>
+                <p class="text-muted-foreground">
+                  This layout is centered both vertically and horizontally on mobile, tablet, and desktop.
+                </p>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-      <h1 class="mb-4 text-3xl font-black">ZG codes</h1>
 
-      <ToggleTheme client:load />
+      <div class="pt-10 opacity-5">
+        <h1 class="mb-4 text-3xl font-black">ZG codes</h1>
+        <ToggleTheme client:load />
+      </div>
     </div>
   </div>
 </Layout>
