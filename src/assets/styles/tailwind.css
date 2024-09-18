@@ -15,6 +15,16 @@ body {
   animation: gradient 15s ease infinite;
 }
 
+@font-face {
+  font-family: 'Helvetica_LT_93_Black_Extended';
+  src:
+    url('../fonts/Helvetica_LT_93_Black_Extended.woff2') format('woff2'),
+    url('../fonts/Helvetica_LT_93_Black_Extended.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
