@@ -64,7 +64,7 @@ export default function ToggleTheme() {
       selectedOption={selectedOption}
       options={themeOptions}
       customTrigger={
-        <div class="flex shrink-0 cursor-pointer items-center gap-1 text-xs text-muted-foreground !outline-primary !transition-all hover:text-primary-action focus:outline-none focus-visible:outline">
+        <button class="flex shrink-0 cursor-pointer items-center gap-1 text-xs text-muted-foreground !outline-primary !transition-all hover:text-primary-action focus:outline-none focus-visible:outline">
           <span class="underline decoration-1 underline-offset-4 outline-2 outline-offset-2">Theme</span>
           <svg
             width="20"
@@ -89,7 +89,7 @@ export default function ToggleTheme() {
               fill="currentColor"
             />
           </svg>
-        </div>
+        </button>
       }
     />
   );

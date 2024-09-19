@@ -66,16 +66,16 @@ export default function DropDown({
     <div ref={dropdownRef} class="relative inline-block w-full max-w-[200px]">
       {customTrigger ? <div onClick={toggleDropdown}>{customTrigger}</div> : defaultTrigger}
       {isOpen && (
-        <div class="absolute z-10 mt-1 w-full rounded-md border border-gray-300 bg-white shadow-lg">
+        <div class="absolute z-10 mt-1 w-full min-w-32 rounded-md border bg-popover py-2 shadow-lg">
           {options.map((option) => (
             <div
               key={option.value}
               onClick={() => selectOption(option)}
-              class="flex cursor-pointer items-center justify-between px-4 py-2 hover:bg-gray-100"
+              class="relative flex cursor-pointer select-none items-center justify-between px-3 py-1.5 text-sm transition-all hover:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
             >
-              <span>{option.label}</span>
+              <span class="text-xs">{option.label}</span>
               {selectedOption?.value === option.value && (
-                <svg class="size-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                <svg class="size-3 text-green-500" viewBox="0 0 20 20" fill="currentColor">
                   <path
                     fillRule="evenodd"
                     d="M16.707 5.707a1 1 0 00-1.414-1.414l-7.086 7.086L4.707 9.207a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8z"
