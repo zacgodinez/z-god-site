@@ -22,7 +22,9 @@ export default function DropDown({
   customTrigger,
 }: Props) {
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [contentHeight, setContentHeight] = useState(0);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -48,6 +50,12 @@ export default function DropDown({
     };
   }, []);
 
+  useEffect(() => {
+    if (contentRef.current) {
+      setContentHeight(contentRef.current.scrollHeight);
+    }
+  }, [options]); // Recalculate when options change
+
   const defaultTrigger = (
     <button
       onClick={toggleDropdown}
@@ -64,9 +72,26 @@ export default function DropDown({
 
   return (
     <div ref={dropdownRef} class="relative inline-block w-full max-w-[200px]">
+      <style>{`
+        .dropdown-menu {
+          transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+          max-height: 0;
+          opacity: 0;
+          overflow: hidden;
+        }
+        .dropdown-menu.open {
+          opacity: 1;
+        }
+      `}</style>
       {customTrigger ? <div onClick={toggleDropdown}>{customTrigger}</div> : defaultTrigger}
-      {isOpen && (
-        <div class="absolute z-10 mt-1 w-full min-w-32 rounded-md border bg-popover py-2 shadow-lg">
+      <div
+        // eslint-disable-next-line tailwindcss/no-custom-classname
+        class={`dropdown-menu absolute z-10 mt-1 w-full min-w-32 rounded-md border bg-popover shadow-lg  ${
+          isOpen ? 'open' : ''
+        }`}
+        style={{ maxHeight: isOpen ? `${contentHeight}px` : '0px' }}
+      >
+        <div ref={contentRef} class="py-1.5">
           {options.map((option) => (
             <div
               key={option.value}
@@ -86,7 +111,7 @@ export default function DropDown({
             </div>
           ))}
         </div>
-      )}
+      </div>
     </div>
   );
 }
