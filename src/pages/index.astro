@@ -1,8 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-
-import ToggleTheme from '~/components/common/ToggleTheme';
-import Logo from '~/components/common/Logo.astro';
+import Z3Layout from '~/components/common/Z3Layout.astro';
 import HomePostsItem from '~/components/blog/HomePostsItem.astro';
 import { APP_BLOG } from 'astrowind:config';
 import { findLatestPosts } from '~/utils/blog';
@@ -16,62 +14,22 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <div class="flex min-h-screen w-full items-center justify-center bg-background py-20">
-    <div class="flex flex-col">
-      <div class="w-full max-w-xs bg-background-secondary p-6 shadow-md md:max-w-md lg:max-w-xl">
-        <div class="border border-border p-6">
-          <div class="flex w-full justify-center">
-            <Logo />
-          </div>
-          <div class="pt-4">
-            <p class="text-muted-foreground">
-              Hi
-              <span class="text-2xl"> 👋 </span>
-              I'm ZG,
-              <br /><br />I'm a dev who enjoys the creative coding and building UI's. I am a crypto enthusiast and am
-              building an open source crypto wallet, check it out at <a href="https://z3us.com/">Z3US.com</a>.<br />
-              I post on X you can follow me on <a href="https://x.com/zac_godinez">X</a>.
-            </p>
-          </div>
-          <div class="pb-2 pt-8">
-            <h1 class="mb-2 font-sans text-lg font-black uppercase">Posts</h1>
-            <ul class="zg-list flex flex-col gap-6">
-              {posts.map((post, _postIndex) => <HomePostsItem post={post} isFirst={_postIndex === 0} />)}
-              <!-- {
-                posts.map((post, _postIndex) => {
-                  return (
-                    <li class="relative pl-4 before:absolute before:left-0 before:text-muted-foreground before:content-['-']">
-                      {_postIndex !== 0 && (
-                        <div class="absolute inset-x-0 mx-4 -mt-3 mb-4 border-t border-border-secondary" />
-                      )}
-                      <a href="#" class="text-muted-foreground">
-                        {post.title}
-                      </a>
-                    </li>
-                  );
-                })
-              } -->
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="flex items-start justify-between py-4">
-        <div class="text-xs text-muted-foreground">
-          <span class="block">
-            Made with
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="inline-block size-3">
-              <path
-                d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z"
-              ></path>
-            </svg>
-            by
-            <a href="https://x.com/zac_godinez">ZG codes</a>
-          </span>
-        </div>
-        <div class="-mt-1">
-          <ToggleTheme client:load />
-        </div>
-      </div>
+  <Z3Layout linkLogo={false}>
+    <div class="pt-4">
+      <p class="text-muted-foreground">
+        Hi
+        <span class="text-2xl"> 👋 </span>
+        I'm ZG,
+        <br /><br />I'm a dev who enjoys the creative coding and building UI's. I am a crypto enthusiast and am building
+        an open source crypto wallet, check it out at <a href="https://z3us.com/">Z3US.com</a>.<br />
+        I post on X you can follow me on <a href="https://x.com/zac_godinez">X</a>.
+      </p>
     </div>
-  </div>
+    <div class="pb-2 pt-8">
+      <h1 class="mb-2 font-sans text-lg font-black uppercase">Posts</h1>
+      <ul class="zg-list flex flex-col gap-6">
+        {posts.map((post, _postIndex) => <HomePostsItem post={post} isFirst={_postIndex === 0} />)}
+      </ul>
+    </div>
+  </Z3Layout>
 </Layout>
