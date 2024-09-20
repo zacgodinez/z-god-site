@@ -1,13 +1,15 @@
 ---
 import Logo from '~/components/common/Logo.astro';
 
+import { getHomePermalink } from '~/utils/permalinks';
+
 import ToggleTheme from '~/components/common/ToggleTheme';
 
 export interface Props {
-  linkLogo: boolean;
+  linkLogo?: boolean;
 }
 
-const { linkLogo } = Astro.props;
+const { linkLogo = true } = Astro.props;
 ---
 
 <div class="flex min-h-screen w-full items-center justify-center bg-background py-20">
@@ -17,7 +19,7 @@ const { linkLogo } = Astro.props;
         <div class="flex w-full justify-center">
           {
             linkLogo ? (
-              <a href="/">
+              <a href={getHomePermalink()}>
                 <Logo />
               </a>
             ) : (
