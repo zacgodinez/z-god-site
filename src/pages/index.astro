@@ -3,6 +3,11 @@ import Layout from '~/layouts/PageLayout.astro';
 
 import ToggleTheme from '~/components/common/ToggleTheme';
 import Logo from '~/components/common/Logo.astro';
+import HomePostsItem from '~/components/blog/HomePostsItem.astro';
+import { APP_BLOG } from 'astrowind:config';
+import { findLatestPosts } from '~/utils/blog';
+
+const posts = APP_BLOG.isEnabled ? await findLatestPosts({ count: 3 }) : [];
 
 const metadata = {
   title: 'ZG.codes — Personal blog',
@@ -31,23 +36,21 @@ const metadata = {
           <div class="pb-2 pt-8">
             <h1 class="mb-2 font-sans text-lg font-black uppercase">Posts</h1>
             <ul class="zg-list flex flex-col gap-6">
-              <li class="relative pl-4 before:absolute before:left-0 before:text-muted-foreground before:content-['-']">
-                <a href="#" class="text-muted-foreground">
-                  This layout is centered both vertically and horizontally on mobile, tablet, and desktop.
-                </a>
-              </li>
-              <li class="relative pl-4 before:absolute before:left-0 before:text-muted-foreground before:content-['-']">
-                <div class="absolute inset-x-0 mx-4 -mt-3 mb-4 border-t border-border-secondary"></div>
-                <a href="#" class="text-muted-foreground">
-                  This layout is centered both vertically and horizontally on mobile, tablet, and desktop.
-                </a>
-              </li>
-              <li class="relative pl-4 before:absolute before:left-0 before:text-muted-foreground before:content-['-']">
-                <div class="absolute inset-x-0 mx-4 -mt-3 mb-4 border-t border-border-secondary"></div>
-                <a href="#" class="text-muted-foreground">
-                  This layout is centered both vertically and horizontally on mobile, tablet, and desktop.
-                </a>
-              </li>
+              {posts.map((post, _postIndex) => <HomePostsItem post={post} isFirst={_postIndex === 0} />)}
+              <!-- {
+                posts.map((post, _postIndex) => {
+                  return (
+                    <li class="relative pl-4 before:absolute before:left-0 before:text-muted-foreground before:content-['-']">
+                      {_postIndex !== 0 && (
+                        <div class="absolute inset-x-0 mx-4 -mt-3 mb-4 border-t border-border-secondary" />
+                      )}
+                      <a href="#" class="text-muted-foreground">
+                        {post.title}
+                      </a>
+                    </li>
+                  );
+                })
+              } -->
             </ul>
           </div>
         </div>
