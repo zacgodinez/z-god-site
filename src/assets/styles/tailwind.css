@@ -68,7 +68,6 @@ a:has(> img) {
 
 a {
   @apply hover:text-primary-action decoration-1 underline underline-offset-4 !transition-all;
-  @apply focus:outline-none outline-2 outline-offset-2 focus-visible:outline !outline-primary;
 }
 
 *:not(.focus-none) {
