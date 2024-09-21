@@ -12,5 +12,5 @@
     "./.vscode/astrowind/config-schema.json": "/src/config.yaml"
   },
   "eslint.experimental.useFlatConfig": true,
-  "cSpell.words": ["astro", "astrojs", "astrowind", "nocheck"]
+  "cSpell.words": ["astro", "astrojs", "astrowind", "nocheck", "tailwindcss"]
 }

@@ -15,11 +15,11 @@ const { linkLogo = true } = Astro.props;
 <div class="flex min-h-screen w-full items-center justify-center bg-background py-20">
   <div class="flex flex-col">
     <div class="w-full max-w-xs bg-background-secondary p-6 shadow-md md:max-w-md lg:max-w-xl">
-      <div class="border border-border p-6">
+      <div class="border border-border py-6">
         <div class="flex w-full justify-center">
           {
             linkLogo ? (
-              <a href={getHomePermalink()}>
+              <a class="focus-none focus:outline-0" href={getHomePermalink()}>
                 <Logo />
               </a>
             ) : (
