@@ -8,7 +8,7 @@ import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import compress from 'astro-compress';
 import { rehypePrettyCode } from 'rehype-pretty-code';
-import moonlightTheme from './public/theme/moonlight-ii.json';
+// import moonlightTheme from './public/theme/moonlight-ii.json';
 import { transformerCopyButton } from '@rehype-pretty/transformers';
 import astrowind from './vendor/integration';
 
@@ -87,7 +87,12 @@ export default defineConfig({
       [
         rehypePrettyCode,
         {
-          theme: moonlightTheme,
+          // theme: moonlightTheme,
+          // theme: 'github-light',
+          theme: {
+            dark: 'github-dark-dimmed',
+            light: 'github-light',
+          },
           transformers: [
             transformerCopyButton({
               visibility: 'hover',

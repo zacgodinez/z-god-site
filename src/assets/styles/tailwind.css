@@ -78,40 +78,6 @@ a {
   @apply no-underline hover:underline;
 }
 
-/* h1 {
-  font-weight: 700;
-  font-size: 2.25rem;
-}
-
-h2 {
-  font-weight: 700;
-  font-size: 1.875rem;
-}
-
-h3 {
-  font-weight: 700;
-  font-size: 1.25rem;
-}
-
-h4 {
-  font-weight: 700;
-  font-size: 1rem;
-}
-
-h5 {
-  font-weight: 700;
-  font-size: 0.75rem;
-}
-
-h6 {
-  font-weight: 700;
-  font-size: 0.875rem;
-} */
-
-/* h3 code {
-  @apply !text-lg md:!text-xl;
-} */
-
 pre {
   @apply !px-0 rounded-lg;
 }
@@ -131,8 +97,8 @@ code[data-theme*=' '] span {
 }
 
 @media (prefers-color-scheme: dark) {
-  code[data-theme*=' '],
-  code[data-theme*=' '] span {
+  .dark code[data-theme*=' '],
+  .dark code[data-theme*=' '] span {
     color: var(--shiki-dark);
     background-color: var(--shiki-dark-bg);
   }
@@ -147,10 +113,6 @@ code[data-line-numbers] > [data-line]::before {
   content: counter(line);
   @apply inline-block w-4 mr-4 text-right text-gray-500;
 }
-
-/* .prose {
-  @apply max-w-[55rem] sm:text-lg md:text-xl !leading-7 sm:!leading-9;
-} */
 
 pre [data-line] {
   @apply px-4 border-l-2 border-l-transparent;
