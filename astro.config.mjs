@@ -1,15 +1,15 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
-
 import { defineConfig } from 'astro/config';
-
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
 import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import compress from 'astro-compress';
-
+import { rehypePrettyCode } from 'rehype-pretty-code';
+import moonlightTheme from './public/theme/moonlight-ii.json';
+import { transformerCopyButton } from '@rehype-pretty/transformers';
 import astrowind from './vendor/integration';
 
 import {
@@ -78,12 +78,26 @@ export default defineConfig({
   image: {
     domains: ['cdn.pixabay.com'],
   },
-
   markdown: {
+    syntaxHighlight: false,
     remarkPlugins: [readingTimeRemarkPlugin],
-    rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
+    rehypePlugins: [
+      responsiveTablesRehypePlugin,
+      lazyImagesRehypePlugin,
+      [
+        rehypePrettyCode,
+        {
+          theme: moonlightTheme,
+          transformers: [
+            transformerCopyButton({
+              visibility: 'hover',
+              feedbackDuration: 2_500,
+            }),
+          ],
+        },
+      ],
+    ],
   },
-
   vite: {
     resolve: {
       alias: {

@@ -14,6 +14,26 @@ metadata:
 
 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
+### With title, line numbers, and character highlighting
+
+```elixir title="fib.ex" showLineNumbers /palindrome/#v
+defmodule Solution do
+  @spec is_palindrome(x :: integer) :: boolean
+  def is_palindrome(x) when x < 0, do: false
+  def is_palindrome(x), do: do_is_palindrome(x, get_base_10(x, 1))
+
+  defp do_is_palindrome(x, b10) when b10 > 1,
+    do: get_first_digit(x, b10) == rem(x, 10) and do_is_palindrome(div(x, 10), div(b10, 100))
+
+  defp do_is_palindrome(_, _), do: true
+
+  defp get_first_digit(n, b10), do: div(n, b10) |> rem(10)
+
+  defp get_base_10(n, b10) when n >= b10, do: get_base_10(n, b10 * 10)
+  defp get_base_10(n, b10), do: div(b10, 10)
+end
+```
+
 ### Highlighted
 
 Et fugiat ad nisi amet magna labore do cillum fugiat occaecat cillum Lorem proident. In sint dolor ullamco ad do adipisicing amet id excepteur Lorem aliquip sit irure veniam laborum duis cillum. Aliqua occaecat minim cillum deserunt magna sunt laboris do do irure ea nostrud consequat ut voluptate ex.
