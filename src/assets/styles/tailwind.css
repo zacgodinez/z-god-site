@@ -83,7 +83,7 @@ pre {
 }
 
 code {
-  @apply text-sm md:text-base !leading-loose;
+  @apply !text-sm !leading-loose !py-3;
 }
 
 pre > code {
@@ -152,8 +152,16 @@ pre [data-line] {
   @apply bg-zinc-700 text-zinc-200 rounded-t-lg py-2 px-3 font-semibold text-sm;
 }
 
+figure[data-rehype-pretty-code-figure] {
+  @apply !p-0;
+}
+
+figure[data-rehype-pretty-code-figure] pre {
+  @apply !p-0;
+}
+
 figcaption + pre {
-  @apply !rounded-t-none;
+  @apply !rounded-t-none !pt-0 !pb-0;
 }
 
 figure {
@@ -162,5 +170,5 @@ figure {
 pre,
 code,
 figure {
-  @apply overflow-x-auto px-2 py-1;
+  @apply overflow-x-auto;
 }
