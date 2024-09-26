@@ -170,5 +170,5 @@ figure {
 pre,
 code,
 figure {
-  @apply overflow-x-auto;
+  @apply overflow-x-auto !scrollbar-thin;
 }

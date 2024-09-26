@@ -1,6 +1,7 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import colors from 'tailwindcss/colors.js';
 import typographyPlugin from '@tailwindcss/typography';
+import tailwindScrollbar from 'tailwind-scrollbar';
 
 const linkHeadingStyles = {
   color: colors.gray[100],
@@ -189,6 +190,6 @@ module.exports = {
       },
     },
   },
-  plugins: [typographyPlugin],
+  plugins: [typographyPlugin, tailwindScrollbar({ preferredStrategy: 'pseudoelements' })],
   darkMode: 'class',
 };
