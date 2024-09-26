@@ -9,6 +9,14 @@ body {
   text-decoration-thickness: 72;
 }
 
+html {
+  @apply scrollbar-thumb-zinc-400;
+}
+
+html.dark {
+  @apply !scrollbar-thumb-zinc-950;
+}
+
 .zg-gradient {
   background: linear-gradient(-45deg, #a855f7, #e73c7e, #23a6d5, #6366f1);
   background-size: 400% 400%;
@@ -170,5 +178,5 @@ figure {
 pre,
 code,
 figure {
-  @apply overflow-x-auto !scrollbar-thin;
+  @apply overflow-x-auto !scrollbar-thin !scrollbar-thumb-zinc-200;
 }
