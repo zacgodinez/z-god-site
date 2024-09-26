@@ -1,5 +1,4 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
-// import colors from 'tailwindcss/colors.js';
 import typographyPlugin from '@tailwindcss/typography';
 import tailwindScrollbar from 'tailwind-scrollbar';
 
