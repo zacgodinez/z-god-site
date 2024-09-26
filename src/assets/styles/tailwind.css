@@ -149,7 +149,7 @@ pre [data-line] {
 }
 
 [data-rehype-pretty-code-title] {
-  @apply bg-zinc-700 text-zinc-200 rounded-t-lg py-2 px-3 font-semibold text-sm;
+  @apply bg-zinc-100 text-zinc-700 dark:bg-zinc-700 border-t border-l border-r dark:text-zinc-200 rounded-t-lg py-2 px-3 font-semibold text-sm;
 }
 
 figure[data-rehype-pretty-code-figure] {
@@ -157,7 +157,7 @@ figure[data-rehype-pretty-code-figure] {
 }
 
 figure[data-rehype-pretty-code-figure] pre {
-  @apply !p-0;
+  @apply !p-0 border;
 }
 
 figcaption + pre {
