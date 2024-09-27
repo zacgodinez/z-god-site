@@ -50,7 +50,7 @@ html.dark {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground text-sm;
+    @apply bg-background text-foreground text-base tracking-tight antialiased;
   }
 }
 
@@ -166,6 +166,10 @@ figure[data-rehype-pretty-code-figure] pre {
   @apply !p-0 border;
 }
 
+figure[data-rehype-pretty-code-figure] figcaption {
+  @apply !mt-0;
+}
+
 figcaption + pre {
   @apply !rounded-t-none !pt-0 !pb-0;
 }
@@ -176,5 +180,5 @@ figure {
 pre,
 code,
 figure {
-  @apply overflow-x-auto !scrollbar-thin !scrollbar-thumb-zinc-200;
+  @apply overflow-x-auto !scrollbar-thin !scrollbar-thumb-zinc-200 dark:!scrollbar-thumb-zinc-700;
 }
