@@ -6,12 +6,10 @@ const LOCAL_STORAGE_THEME = 'theme';
 export default function ToggleTheme() {
   const [selectedOption, setSelectedOption] = useState<{ value: string; label: string } | undefined>(undefined);
 
-  // Function to save the selected option's value to localStorage
   const saveToLocalStorage = (value: string) => {
     localStorage.setItem(LOCAL_STORAGE_THEME, value);
   };
 
-  // Function to load the selected option from localStorage
   const loadFromLocalStorage = () => {
     const storedValue = localStorage.getItem(LOCAL_STORAGE_THEME);
     if (storedValue) {
@@ -37,7 +35,6 @@ export default function ToggleTheme() {
     }
   };
 
-  // Handle option selection and store the value in localStorage
   const handleOptionSelected = (opt: { value: string; label: string }) => {
     setSelectedOption(opt);
     saveToLocalStorage(opt.value);
@@ -53,10 +50,29 @@ export default function ToggleTheme() {
     []
   );
 
-  // Load the selected option from localStorage when the component mounts
   useEffect(() => {
     loadFromLocalStorage();
-  }, []);
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    const handleSystemThemeChange = (e: MediaQueryListEvent) => {
+      if (selectedOption?.value === 'system') {
+        setTheme('system');
+      }
+    };
+
+    mediaQuery.addEventListener('change', handleSystemThemeChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleSystemThemeChange);
+    };
+  }, [selectedOption]);
+
+  useEffect(() => {
+    if (selectedOption) {
+      setTheme(selectedOption.value);
+    }
+  }, [selectedOption]);
 
   return (
     <DropDown
