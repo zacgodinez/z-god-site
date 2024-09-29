@@ -95,7 +95,7 @@ export default function DropDown({
       {customTrigger ? <div onClick={toggleDropdown}>{customTrigger}</div> : defaultTrigger}
       <div
         // eslint-disable-next-line tailwindcss/no-custom-classname
-        class={`dropdown-menu absolute z-10 mt-1 w-full min-w-32 rounded-md border bg-popover shadow-lg  ${
+        class={`dropdown-menu absolute z-10 mt-1 w-full min-w-32 rounded-md border bg-popover shadow-md dark:shadow-lg  ${
           isOpen ? 'open' : ''
         }`}
         style={{ maxHeight: isOpen ? `${contentHeight}px` : '0px' }}
@@ -105,9 +105,9 @@ export default function DropDown({
             <div
               key={option.value}
               onClick={() => selectOption(option)}
-              class="relative flex cursor-pointer select-none items-center justify-between px-3 py-1.5 text-sm transition-all hover:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+              class="relative flex cursor-pointer select-none items-center justify-between px-3 py-1.5 text-sm transition-all data-[disabled]:pointer-events-none data-[disabled]:opacity-50 hover:bg-accent focus:text-accent-foreground"
             >
-              <span class="text-xs">{option.label}</span>
+              <span>{option.label}</span>
               {selectedOption?.value === option.value && (
                 <svg class="size-3 text-green-500" viewBox="0 0 20 20" fill="currentColor">
                   <path
