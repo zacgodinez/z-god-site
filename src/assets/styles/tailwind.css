@@ -50,7 +50,7 @@ html.dark {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground text-base tracking-tight antialiased;
+    @apply bg-background text-foreground text-sm md:text-base tracking-tight antialiased;
   }
 }
 
@@ -164,7 +164,7 @@ figure[data-rehype-pretty-code-figure] {
 }
 
 figure[data-rehype-pretty-code-figure] pre {
-  @apply !p-0 border;
+  @apply !p-0 border grid;
 }
 
 figure[data-rehype-pretty-code-figure] figcaption {
