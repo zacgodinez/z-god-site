@@ -91,7 +91,7 @@ pre {
 }
 
 code {
-  @apply !text-sm !leading-loose !py-3;
+  @apply !text-xs !leading-loose md:!text-sm md:!leading-loose !py-3;
 }
 
 pre > code {
