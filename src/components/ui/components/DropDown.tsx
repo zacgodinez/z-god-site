@@ -25,6 +25,7 @@ export default function DropDown({
   const contentRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
+  const [openUpwards, setOpenUpwards] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -63,7 +64,33 @@ export default function DropDown({
     if (contentRef.current) {
       setContentHeight(contentRef.current.scrollHeight);
     }
-  }, [options]); // Recalculate when options change
+  }, [options]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setOpenUpwards(entry.intersectionRatio < 1);
+      },
+      {
+        root: null,
+        // TODO: need to measure properly
+        rootMargin: '-128px',
+        threshold: 1.0,
+      }
+    );
+
+    if (dropdownRef.current) {
+      observer.observe(dropdownRef.current);
+    }
+
+    return () => {
+      if (dropdownRef.current) {
+        observer.unobserve(dropdownRef.current);
+      }
+    };
+  }, [isOpen]);
+
+  const dropdownPositionClasses = openUpwards ? 'bottom-full mb-1' : 'top-full mt-1';
 
   const defaultTrigger = (
     <button
@@ -95,7 +122,7 @@ export default function DropDown({
       {customTrigger ? <div onClick={toggleDropdown}>{customTrigger}</div> : defaultTrigger}
       <div
         // eslint-disable-next-line tailwindcss/no-custom-classname
-        class={`dropdown-menu absolute z-10 mt-1 w-full min-w-32 rounded-md border bg-popover shadow-md dark:shadow-lg  ${
+        class={`dropdown-menu ${dropdownPositionClasses} absolute right-0 z-10 w-full min-w-32 rounded-md border bg-popover shadow-md dark:shadow-lg md:left-0  ${
           isOpen ? 'open' : ''
         }`}
         style={{ maxHeight: isOpen ? `${contentHeight}px` : '0px' }}
