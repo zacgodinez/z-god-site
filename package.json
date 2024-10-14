@@ -37,6 +37,7 @@
     "rehype-pretty-code": "^0.14.0",
     "rehype-prism-plus": "^2.0.0",
     "shiki": "^1.18.0",
+    "stats.js": "^0.17.0",
     "tailwind-variants": "^0.2.1",
     "three": "^0.169.0",
     "unpic": "^3.18.0",

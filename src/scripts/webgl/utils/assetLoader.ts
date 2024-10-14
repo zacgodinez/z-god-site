@@ -25,9 +25,7 @@ export async function loadAssets(assets: Assets) {
 
   await Promise.all(
     Object.values(assets).map(async (v) => {
-      console.log('🚀 ~ Object.values ~ v:', v.path);
       const path = resolvePath(v.path);
-      console.log('🚀 ~ Object.values ~ path:', path);
       const extension = getExtension(path);
 
       if (['jpg', 'png', 'webp'].includes(extension)) {
