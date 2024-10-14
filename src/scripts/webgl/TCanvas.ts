@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { gl } from './core/WebGL';
-import { Assets, loadAssets } from './utils/assetLoader';
+import { type Assets, loadAssets } from './utils/assetLoader';
 import { controls } from './utils/OrbitControls';
 import vertexShader from './shader/vs.glsl';
 import fragmentShader from './shader/fs.glsl';
@@ -8,7 +8,7 @@ import { calcCoveredTextureScale } from './utils/coveredTexture';
 
 export class TCanvas {
   private assets: Assets = {
-    image: { path: 'images/unsplash.jpg' },
+    image: { path: '//images/unsplash.jpg' },
   };
 
   constructor(private container: HTMLElement) {

@@ -13,7 +13,7 @@ const { linkLogo = true } = Astro.props;
 
 <div class="flex min-h-dvh w-full items-center justify-center md:min-h-screen md:bg-background md:px-0 md:py-20">
   <div class="flex flex-col">
-    <div class="w-full max-w-xl bg-background-secondary p-4 md:p-6 md:shadow-md">
+    <div class="relative w-full max-w-xl bg-background-secondary p-4 md:p-6 md:shadow-md">
       <div class="border border-border py-6">
         <div class="flex w-full justify-center">
           {
@@ -31,7 +31,7 @@ const { linkLogo = true } = Astro.props;
         </div>
       </div>
     </div>
-    <div class="flex items-start justify-between px-4 pb-8 text-xs md:p-6 md:pb-0 md:text-sm">
+    <div class="relative flex items-start justify-between px-4 pb-8 text-xs md:p-6 md:pb-0 md:text-sm">
       <div class="text-muted-foreground">
         <span class="block">
           Made with
