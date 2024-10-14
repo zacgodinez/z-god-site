@@ -1,5 +1,8 @@
 ---
 import Layout from '~/layouts/Layout.astro';
+import CanvasContainer from '~/components/ui/CanvasContainer.astro';
+// import CanvasContainer from '~/components/CanvasContainer.astro'
+
 // import Header from '~/components/widgets/Header.astro';
 // import Footer from '~/components/widgets/Footer.astro';
 // import Announcement from '~/components/widgets/Announcement.astro';
@@ -17,6 +20,8 @@ const { metadata } = Astro.props;
 ---
 
 <Layout metadata={metadata}>
+  <CanvasContainer />
+
   <!-- <slot name="announcement">
     <Announcement />
   </slot> -->

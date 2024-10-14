@@ -1,3 +1,4 @@
+import glsl from 'vite-plugin-glsl';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { defineConfig } from 'astro/config';
@@ -104,6 +105,18 @@ export default defineConfig({
     ],
   },
   vite: {
+    plugins: [glsl()],
+    build: {
+      assetsInlineLimit: 0,
+      rollupOptions: {
+        output: {
+          assetFileNames: '[ext]/[name][extname]',
+          entryFileNames: 'script/entry.js',
+        },
+      },
+      cssCodeSplit: false,
+    },
+
     resolve: {
       alias: {
         '~': path.resolve(__dirname, './src'),
