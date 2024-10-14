@@ -14,7 +14,7 @@ const {
 } = Astro.props;
 
 const button = tv({
-  base: 'transform  px-4 py-2 font-heading font-bold no-underline transition-all duration-200',
+  base: 'focus-none relative transform p-0.5 font-heading font-bold no-underline transition-all duration-200',
   variants: {
     variant: {
       primary: 'zg-gradient text-white hover:bg-blue-700',
@@ -33,12 +33,15 @@ const buttonClass = button({ variant, class: className });
 {
   type === 'button' || type === 'submit' || type === 'reset' ? (
     <button type={type} class={buttonClass} {...rest}>
-      <Fragment set:html={text} />
-      {icon && <Icon name={icon} class="-mr-1.5 ml-1 inline-block size-5 rtl:-ml-1.5 rtl:mr-1" />}
+      <div class="bg-background-secondary px-4 py-2">
+        <Fragment set:html={text} />
+        {icon && <Icon name={icon} class="-mr-1.5 ml-1 inline-block size-5 rtl:-ml-1.5 rtl:mr-1" />}
+      </div>
     </button>
   ) : (
     <a class={buttonClass} {...(target ? { target: target, rel: 'noopener noreferrer' } : {})} {...rest}>
-      <div class="bg-background-secondary">
+      <span class="zg-gradient absolute left-1.5 top-1.5 size-full" />
+      <div class="relative bg-background-secondary px-4 py-2">
         <Fragment set:html={text} />
         {icon && <Icon name={icon} class="-mr-1.5 ml-1 inline-block size-5 rtl:-ml-1.5 rtl:mr-1" />}
       </div>
