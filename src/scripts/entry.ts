@@ -1,7 +1,7 @@
 import { qs } from './utils';
+import { TCanvas } from './webgl/TCanvas';
 
-window.addEventListener('load', async () => {
-  const { TCanvas } = await import('./webgl/TCanvas');
+const initThreeJS = () => {
   const canvasContainer = qs<HTMLDivElement>('.canvas-container');
 
   if (canvasContainer) {
@@ -11,4 +11,16 @@ window.addEventListener('load', async () => {
       canvas.dispose();
     });
   }
-});
+};
+
+// Use requestIdleCallback to initialize Three.js when the browser is idle
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(() => {
+    initThreeJS();
+  });
+} else {
+  // Fallback if requestIdleCallback is not supported
+  setTimeout(() => {
+    initThreeJS();
+  }, 2000); // Load after 2 seconds if not supported
+}
