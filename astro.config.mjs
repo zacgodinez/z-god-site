@@ -1,5 +1,5 @@
-import glsl from 'vite-plugin-glsl';
 import path from 'path';
+import glsl from 'vite-plugin-glsl';
 import { fileURLToPath } from 'url';
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
@@ -9,7 +9,6 @@ import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import compress from 'astro-compress';
 import { rehypePrettyCode } from 'rehype-pretty-code';
-// import moonlightTheme from './public/theme/moonlight-ii.json';
 import { transformerCopyButton } from '@rehype-pretty/transformers';
 import astrowind from './vendor/integration';
 
@@ -88,8 +87,6 @@ export default defineConfig({
       [
         rehypePrettyCode,
         {
-          // theme: moonlightTheme,
-          // theme: 'github-light',
           theme: {
             dark: 'github-dark-dimmed',
             light: 'github-light',
@@ -116,7 +113,6 @@ export default defineConfig({
       },
       cssCodeSplit: false,
     },
-
     resolve: {
       alias: {
         '~': path.resolve(__dirname, './src'),

@@ -1,8 +1,14 @@
-import { qs } from './utils'
-import { TCanvas } from './webgl/TCanvas'
+import { qs } from './utils';
 
-const canvas = new TCanvas(qs<HTMLDivElement>('.canvas-container'))
+window.addEventListener('load', async () => {
+  const { TCanvas } = await import('./webgl/TCanvas');
+  const canvasContainer = qs<HTMLDivElement>('.canvas-container');
 
-window.addEventListener('beforeunload', () => {
-  canvas.dispose()
-})
+  if (canvasContainer) {
+    const canvas = new TCanvas(canvasContainer);
+
+    window.addEventListener('beforeunload', () => {
+      canvas.dispose();
+    });
+  }
+});
