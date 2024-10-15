@@ -13,14 +13,7 @@ const initThreeJS = () => {
   }
 };
 
-// Use requestIdleCallback to initialize Three.js when the browser is idle
-if ('requestIdleCallback' in window) {
-  requestIdleCallback(() => {
-    initThreeJS();
-  });
-} else {
-  // Fallback if requestIdleCallback is not supported
-  setTimeout(() => {
-    initThreeJS();
-  }, 2000); // Load after 2 seconds if not supported
-}
+// Wait for user input (scroll, click, or mousemove) to initialize Three.js
+window.addEventListener('scroll', initThreeJS, { once: true });
+window.addEventListener('click', initThreeJS, { once: true });
+window.addEventListener('mousemove', initThreeJS, { once: true });
