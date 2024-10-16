@@ -23,17 +23,20 @@ const initThreeJS = () => {
 
 // Check if Three.js has been initialized before (cached)
 const isThreeJSCached = localStorage.getItem('threejs_initialized') === 'true';
-console.log('🚀 ~ isThreeJSCached:', isThreeJSCached);
 
 if (isThreeJSCached) {
   // If cached, immediately initialize Three.js
   initThreeJS();
 } else {
   // If not cached, wait for user input (scroll, click, mousemove, or touch)
+  window.addEventListener('scroll', initThreeJS, { once: true });
+  window.addEventListener('click', initThreeJS, { once: true });
+  window.addEventListener('mousemove', initThreeJS, { once: true });
+  window.addEventListener('touchstart', initThreeJS, { once: true });
 
   // Set a timeout to initialize Three.js if no interaction occurs after 3 seconds
-  setTimeout(() => {
-    console.log('Timeout reached, initializing Three.js');
-    initThreeJS();
-  }, 600);
+  // setTimeout(() => {
+  //   console.log('Timeout reached, initializing Three.js');
+  //   initThreeJS();
+  // }, 3000);
 }
