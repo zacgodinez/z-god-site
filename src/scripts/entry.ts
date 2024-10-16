@@ -29,5 +29,5 @@ window.addEventListener('load', () => {
   // Set a timeout to initialize Three.js if no interaction occurs after 3 seconds
   setTimeout(() => {
     initThreeJS();
-  }, 1000);
+  }, 500);
 });
