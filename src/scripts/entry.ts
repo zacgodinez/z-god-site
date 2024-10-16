@@ -18,13 +18,16 @@ const initThreeJS = () => {
   }
 };
 
-// Wait for user input (scroll, click, mousemove, or touch) to initialize Three.js
-window.addEventListener('scroll', initThreeJS, { once: true });
-window.addEventListener('click', initThreeJS, { once: true });
-window.addEventListener('mousemove', initThreeJS, { once: true });
-window.addEventListener('touchstart', initThreeJS, { once: true });
+// Wait for the window to load before setting up event listeners and timeout
+window.addEventListener('load', () => {
+  // Wait for user input (scroll, click, mousemove, or touch) to initialize Three.js
+  window.addEventListener('scroll', initThreeJS, { once: true });
+  window.addEventListener('click', initThreeJS, { once: true });
+  window.addEventListener('mousemove', initThreeJS, { once: true });
+  window.addEventListener('touchstart', initThreeJS, { once: true });
 
-// Set a timeout to initialize Three.js if no interaction occurs after 3 seconds
-setTimeout(() => {
-  initThreeJS();
-}, 3000);
+  // Set a timeout to initialize Three.js if no interaction occurs after 3 seconds
+  setTimeout(() => {
+    initThreeJS();
+  }, 1000);
+});
