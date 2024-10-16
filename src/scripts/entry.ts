@@ -35,8 +35,8 @@ if (isThreeJSCached) {
   window.addEventListener('touchstart', initThreeJS, { once: true });
 
   // Set a timeout to initialize Three.js if no interaction occurs after 3 seconds
-  // setTimeout(() => {
-  //   console.log('Timeout reached, initializing Three.js');
-  //   initThreeJS();
-  // }, 3000);
+  setTimeout(() => {
+    console.log('Timeout reached, initializing Three.js');
+    initThreeJS();
+  }, 5000);
 }
