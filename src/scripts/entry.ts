@@ -35,5 +35,5 @@ if (isThreeJSCached) {
   setTimeout(() => {
     console.log('Timeout reached, initializing Three.js');
     initThreeJS();
-  }, 300);
+  }, 600);
 }
