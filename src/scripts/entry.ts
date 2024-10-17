@@ -1,5 +1,4 @@
 import { qs } from './utils';
-
 let initialized = false; // Track whether Three.js has been initialized
 
 const initThreeJS = () => {
@@ -9,18 +8,15 @@ const initThreeJS = () => {
     // Store in localStorage that Three.js has been initialized
     localStorage.setItem('threejs_initialized', 'true');
 
-    const canvasContainer = qs<HTMLDivElement>('.canvas-container');
+    // get canvas
+    const CANVAS_ID = 'scene';
+    const canvasContainer = qs<HTMLDivElement>(`canvas#${CANVAS_ID}`);
+
     if (canvasContainer) {
       // Dynamically import TCanvas only when needed
-      import('./webgl/TCanvas')
-        .then(({ TCanvas }) => {
-          const canvas = new TCanvas(canvasContainer);
-
+      import('./scene')
+        .then(() => {
           canvasContainer.style.opacity = '1';
-
-          window.addEventListener('beforeunload', () => {
-            canvas.dispose();
-          });
         })
         .catch((error) => {
           console.error('Error loading TCanvas module:', error);
@@ -42,9 +38,8 @@ if (isThreeJSCached) {
   window.addEventListener('mousemove', initThreeJS, { once: true });
   window.addEventListener('touchstart', initThreeJS, { once: true });
 
-  // Set a timeout to initialize Three.js if no interaction occurs after 3 seconds
+  // Set a timeout to initialize Three.js if no interaction occurs after 5 seconds
   setTimeout(() => {
-    console.log('Timeout reached, initializing Three.js');
     initThreeJS();
   }, 5000);
 }
