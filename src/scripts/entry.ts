@@ -14,6 +14,8 @@ const initThreeJS = () => {
     if (canvasContainer) {
       const canvas = new TCanvas(canvasContainer);
 
+      canvasContainer.style.opacity = '1';
+
       window.addEventListener('beforeunload', () => {
         canvas.dispose();
       });
