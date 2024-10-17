@@ -21,6 +21,7 @@ import Stats from 'three/examples/jsm/libs/stats.module';
 import { resizeRendererToDisplaySize } from './utils';
 
 const CANVAS_ID = 'scene';
+const mode = import.meta.env.MODE;
 
 let canvas: HTMLElement;
 let renderer: WebGLRenderer;
@@ -70,8 +71,6 @@ function createLightSegment() {
 }
 
 function init() {
-  const mode = import.meta.env.MODE;
-
   // ===== 🖼️ CANVAS, RENDERER, & SCENE =====
   {
     canvas = document.querySelector(`canvas#${CANVAS_ID}`)!;
@@ -207,7 +206,9 @@ function init() {
 function animate() {
   requestAnimationFrame(animate);
 
-  stats.update();
+  if (mode === 'development') {
+    stats.update();
+  }
 
   if (animation.enabled && animation.play) {
     // move grids
