@@ -70,6 +70,8 @@ function createLightSegment() {
 }
 
 function init() {
+  const mode = import.meta.env.MODE;
+
   // ===== 🖼️ CANVAS, RENDERER, & SCENE =====
   {
     canvas = document.querySelector(`canvas#${CANVAS_ID}`)!;
@@ -167,19 +169,18 @@ function init() {
 
     gridHelper = new GridHelper(300, 300, 0x2a4858, 0x2a4858);
     gridHelper.position.y = -1.5;
-    // gridHelper.position.y = 0;
     scene.add(gridHelper);
   }
 
   // ===== 📈 STATS & CLOCK =====
-  {
+  if (mode === 'development') {
     clock = new Clock();
     stats = new Stats();
     document.body.appendChild(stats.dom);
   }
 
   // ==== 🐞 DEBUG GUI ====
-  {
+  if (mode === 'development') {
     gui = new GUI({ title: '🐞 Debug GUI', width: 300 });
     const controlsFolder = gui.addFolder('Controls');
     controlsFolder.add(dragControls, 'enabled').name('drag controls');
@@ -190,12 +191,10 @@ function init() {
 
     const cameraFolder = gui.addFolder('Camera');
     cameraFolder.add(cameraControls, 'autoRotate');
-    // Add controls for camera position
     cameraFolder.add(camera.position, 'x', -10, 10).name('Position X');
     cameraFolder.add(camera.position, 'y', -10, 10).name('Position Y');
     cameraFolder.add(camera.position, 'z', -10, 10).name('Position Z');
 
-    // reset GUI state button
     const resetGui = () => {
       localStorage.removeItem('guiState');
       gui.reset();
