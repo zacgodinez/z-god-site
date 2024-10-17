@@ -1,5 +1,4 @@
 import { qs } from './utils';
-import { TCanvas } from './webgl/TCanvas';
 
 let initialized = false; // Track whether Three.js has been initialized
 
@@ -12,13 +11,20 @@ const initThreeJS = () => {
 
     const canvasContainer = qs<HTMLDivElement>('.canvas-container');
     if (canvasContainer) {
-      const canvas = new TCanvas(canvasContainer);
+      // Dynamically import TCanvas only when needed
+      import('./webgl/TCanvas')
+        .then(({ TCanvas }) => {
+          const canvas = new TCanvas(canvasContainer);
 
-      canvasContainer.style.opacity = '1';
+          canvasContainer.style.opacity = '1';
 
-      window.addEventListener('beforeunload', () => {
-        canvas.dispose();
-      });
+          window.addEventListener('beforeunload', () => {
+            canvas.dispose();
+          });
+        })
+        .catch((error) => {
+          console.error('Error loading TCanvas module:', error);
+        });
     }
   }
 };
