@@ -161,6 +161,13 @@ function init() {
   }
 
   // ===== 🪄 HELPERS =====
+  {
+    pointLightHelper = new PointLightHelper(pointLight, undefined, 'orange');
+    pointLightHelper.visible = false;
+    scene.add(pointLightHelper);
+  }
+
+  // ===== 🪄 GRID HELPERS =====
   function updateGridHelperColor() {
     const isDarkMode = document.documentElement.classList.contains('dark');
 
