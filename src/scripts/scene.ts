@@ -171,8 +171,8 @@ function init() {
   function updateGridHelperColor() {
     const isDarkMode = document.documentElement.classList.contains('dark');
 
-    const lightModeColor = 0x2a4858; // light mode color
-    const darkModeColor = 0x74fab6; // dark mode color
+    const lightModeColor = 0x91caf2; // #F99ED2 light mode color
+    const darkModeColor = 0x134c73; // #134c73 dark mode color
 
     const color1 = isDarkMode ? darkModeColor : lightModeColor;
     const color2 = isDarkMode ? darkModeColor : lightModeColor;
