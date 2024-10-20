@@ -161,15 +161,40 @@ function init() {
   }
 
   // ===== 🪄 HELPERS =====
-  {
-    pointLightHelper = new PointLightHelper(pointLight, undefined, 'orange');
-    pointLightHelper.visible = false;
-    scene.add(pointLightHelper);
+  function updateGridHelperColor() {
+    const isDarkMode = document.documentElement.classList.contains('dark');
 
-    gridHelper = new GridHelper(300, 300, 0x2a4858, 0x2a4858);
+    const lightModeColor = 0x2a4858; // light mode color
+    const darkModeColor = 0x74fab6; // dark mode color
+
+    const color1 = isDarkMode ? darkModeColor : lightModeColor;
+    const color2 = isDarkMode ? darkModeColor : lightModeColor;
+
+    // Remove the old gridHelper if it exists
+    if (gridHelper) {
+      scene.remove(gridHelper);
+      gridHelper.geometry.dispose(); // Properly dispose geometry
+      gridHelper.material.dispose(); // Properly dispose material
+    }
+
+    // Create a new GridHelper with updated colors
+    gridHelper = new GridHelper(300, 300, color1, color2);
     gridHelper.position.y = -1.5;
+
+    // Add the updated gridHelper to the scene
     scene.add(gridHelper);
   }
+
+  // Initial setup
+  updateGridHelperColor();
+
+  // Optionally, you can listen for changes in the theme and update dynamically
+  const observer = new MutationObserver(() => {
+    updateGridHelperColor();
+  });
+
+  // Observe changes to the class list of the HTML element
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
   // ===== 📈 STATS & CLOCK =====
   if (mode === 'development') {
