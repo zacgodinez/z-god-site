@@ -51,11 +51,31 @@ const gridSize = 300;
 const gridDivisions = 300;
 // eslint-disable-next-line prefer-const
 lightSegments = [];
+
 const segmentGeometry = new BoxGeometry(0.05, 0.05, 1);
-const segmentMaterial = new MeshBasicMaterial({
-  color: 0x00ffff,
-  transparent: true,
-  opacity: 0.8,
+
+function createSegmentMaterial() {
+  const isDarkMode = document.documentElement.classList.contains('dark');
+  return new MeshBasicMaterial({
+    color: isDarkMode ? 0x00ffff : 0xfeadcb,
+    transparent: true,
+    opacity: 0.8,
+  });
+}
+
+// Update segment material
+const segmentMaterial = createSegmentMaterial();
+
+// Update material color when theme changes
+const observer = new MutationObserver(() => {
+  const isDarkMode = document.documentElement.classList.contains('dark');
+  segmentMaterial.color.setHex(isDarkMode ? 0x00ffff : 0xfeadcb);
+});
+
+// Observe theme changes
+observer.observe(document.documentElement, {
+  attributes: true,
+  attributeFilter: ['class'],
 });
 
 function createLightSegment() {
