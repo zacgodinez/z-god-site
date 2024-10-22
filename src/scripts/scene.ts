@@ -22,6 +22,7 @@ import { resizeRendererToDisplaySize } from './utils';
 
 const CANVAS_ID = 'scene';
 const mode = import.meta.env.MODE;
+const isDevMode = mode === 'development';
 
 let canvas: HTMLElement;
 let renderer: WebGLRenderer;
@@ -126,20 +127,31 @@ function init() {
     cameraControls = new OrbitControls(camera, canvas);
     cameraControls.enableDamping = true;
     cameraControls.autoRotate = false;
+
+    // Only enable drag controls in development mode
+    if (!isDevMode) {
+      cameraControls.enabled = false;
+      cameraControls.enableZoom = false;
+      cameraControls.enableRotate = false;
+      cameraControls.enablePan = false;
+    }
     cameraControls.update();
 
     dragControls = new DragControls([], camera, renderer.domElement);
     dragControls.addEventListener('hoveron', (event) => {
+      if (!isDevMode) return;
       const mesh = event.object as Mesh;
       const material = mesh.material as MeshStandardMaterial;
       material.emissive.set('orange');
     });
     dragControls.addEventListener('hoveroff', (event) => {
+      if (!isDevMode) return;
       const mesh = event.object as Mesh;
       const material = mesh.material as MeshStandardMaterial;
       material.emissive.set('black');
     });
     dragControls.addEventListener('dragstart', (event) => {
+      if (!isDevMode) return;
       const mesh = event.object as Mesh;
       const material = mesh.material as MeshStandardMaterial;
       cameraControls.enabled = false;
@@ -149,6 +161,7 @@ function init() {
       material.needsUpdate = true;
     });
     dragControls.addEventListener('dragend', (event) => {
+      if (!isDevMode) return;
       cameraControls.enabled = true;
       animation.play = true;
       const mesh = event.object as Mesh;
@@ -157,7 +170,7 @@ function init() {
       material.opacity = 1;
       material.needsUpdate = true;
     });
-    dragControls.enabled = false;
+    dragControls.enabled = isDevMode;
   }
 
   // ===== 🪄 HELPERS =====
