@@ -51,8 +51,12 @@ const gridSize = 300;
 const gridDivisions = 300;
 // eslint-disable-next-line prefer-const
 lightSegments = [];
-const segmentGeometry = new BoxGeometry(0.1, 0.1, 1);
-const segmentMaterial = new MeshBasicMaterial({ color: 0x00ffff });
+const segmentGeometry = new BoxGeometry(0.05, 0.05, 1);
+const segmentMaterial = new MeshBasicMaterial({
+  color: 0x00ffff,
+  transparent: true,
+  opacity: 0.8,
+});
 
 function createLightSegment() {
   const isHorizontal = Math.random() < 0.5;
@@ -251,7 +255,7 @@ function init() {
 function animate() {
   requestAnimationFrame(animate);
 
-  if (mode === 'development') {
+  if (isDevMode) {
     stats.update();
   }
 
