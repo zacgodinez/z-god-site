@@ -2,7 +2,6 @@ import GUI from 'lil-gui';
 import {
   AmbientLight,
   BoxGeometry,
-  MeshBasicMaterial,
   Clock,
   GridHelper,
   LoadingManager,
@@ -18,6 +17,7 @@ import {
 import { DragControls } from 'three/examples/jsm/controls/DragControls';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
+import { BloomEffect, EffectComposer, EffectPass, RenderPass, KernelSize, BlendFunction } from 'postprocessing';
 import { resizeRendererToDisplaySize } from './utils';
 
 const CANVAS_ID = 'scene';
@@ -40,6 +40,7 @@ let clock: Clock;
 let stats: Stats;
 let gui: GUI;
 let lightSegments: Mesh[];
+let composer: EffectComposer;
 
 const animation = { enabled: true, play: true };
 
@@ -53,13 +54,20 @@ const gridDivisions = 300;
 lightSegments = [];
 
 const segmentGeometry = new BoxGeometry(0.05, 0.05, 1);
+const colorStreakLight = 0xfeadcb;
+const colorStreakDark = 0x00ffff;
 
 function createSegmentMaterial() {
   const isDarkMode = document.documentElement.classList.contains('dark');
-  return new MeshBasicMaterial({
-    color: isDarkMode ? 0x00ffff : 0xfeadcb,
+  return new MeshStandardMaterial({
+    color: isDarkMode ? colorStreakDark : colorStreakLight,
+    emissive: isDarkMode ? colorStreakDark : colorStreakLight,
+    emissiveIntensity: 5.0,
     transparent: true,
-    opacity: 0.8,
+    opacity: 1,
+    metalness: 0,
+    roughness: 0,
+    toneMapped: false,
   });
 }
 
@@ -69,7 +77,9 @@ const segmentMaterial = createSegmentMaterial();
 // Update material color when theme changes
 const observer = new MutationObserver(() => {
   const isDarkMode = document.documentElement.classList.contains('dark');
-  segmentMaterial.color.setHex(isDarkMode ? 0x00ffff : 0xfeadcb);
+  const color = isDarkMode ? colorStreakDark : colorStreakLight;
+  segmentMaterial.color.setHex(color);
+  segmentMaterial.emissive.setHex(color);
 });
 
 // Observe theme changes
@@ -81,7 +91,6 @@ observer.observe(document.documentElement, {
 function createLightSegment() {
   const isHorizontal = Math.random() < 0.5;
   const position = Math.floor(Math.random() * gridDivisions) - gridDivisions / 2 + 0.5;
-
   const segment = new Mesh(segmentGeometry, segmentMaterial);
 
   if (isHorizontal) {
@@ -122,6 +131,24 @@ function init() {
     loadingManager.onError = () => {
       console.log('❌ error while loading');
     };
+  }
+
+  // POST COMPOSER
+  {
+    composer = new EffectComposer(renderer);
+    const renderPass = new RenderPass(scene, camera);
+    composer.addPass(renderPass);
+
+    const bloomEffect = new BloomEffect({
+      blendFunction: BlendFunction.ADD,
+      kernelSize: KernelSize.HUGE, // Increased from LARGE
+      luminanceThreshold: 0.1, // Lowered from 0.2
+      luminanceSmoothing: 0.8, // Increased from 0.6
+      intensity: 5.0, // Increased from 1.0
+    });
+
+    const bloomPass = new EffectPass(camera, bloomEffect);
+    composer.addPass(bloomPass);
   }
 
   // ===== 💡 LIGHTS =====
@@ -274,6 +301,7 @@ function init() {
 
 function animate() {
   requestAnimationFrame(animate);
+  composer.render();
 
   if (isDevMode) {
     stats.update();

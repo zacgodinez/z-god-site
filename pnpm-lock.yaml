@@ -53,6 +53,9 @@ importers:
       lodash.merge:
         specifier: ^4.6.2
         version: 4.6.2
+      postprocessing:
+        specifier: ^6.36.3
+        version: 6.36.3(three@0.168.0)
       preact:
         specifier: ^10.23.2
         version: 10.23.2
@@ -3521,6 +3524,11 @@ packages:
   postcss@8.4.47:
     resolution: {integrity: sha512-56rxCq7G/XfB4EkXq9Egn5GCqugWvDFjafDOThIdMBsI15iqPqR5r15TfSr1YPYeEI19YeaXMCbY6u88Y76GLQ==}
     engines: {node: ^10 || ^12 || >=14}
+
+  postprocessing@6.36.3:
+    resolution: {integrity: sha512-GtMLwoqg0xdYAgm9lbf6qlKay7HQPb8Z+xAPSzbCUspud/qBj3Y/orJSkqEQVlfxTtm7YAUSv+J39ir51/IwaQ==}
+    peerDependencies:
+      three: '>= 0.157.0 < 0.170.0'
 
   preact-render-to-string@6.5.10:
     resolution: {integrity: sha512-BJdypTQaBA5UbTF9NKZS3zP93Sw33tZOxNXIfuHofqOZFoMdsquNkVebs/HkEw0in/Qbi6Ep/Anngnj+VsHeBQ==}
@@ -8572,6 +8580,10 @@ snapshots:
       nanoid: 3.3.7
       picocolors: 1.1.0
       source-map-js: 1.2.1
+
+  postprocessing@6.36.3(three@0.168.0):
+    dependencies:
+      three: 0.168.0
 
   preact-render-to-string@6.5.10(preact@10.23.2):
     dependencies:
