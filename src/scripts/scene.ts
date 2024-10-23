@@ -44,6 +44,13 @@ let composer: EffectComposer;
 
 const animation = { enabled: true, play: true };
 
+const startY = 0.0; // Starting y position of the camera
+const endY = -1.2; // Ending y position of the camera when the user reaches the bottom of the page
+
+// Variables for smooth animation
+let targetY = startY; // The target y position the camera should move towards
+const lerpFactor = 0.1; // Lerp factor (adjust for more or less smoothing)
+
 init();
 animate();
 
@@ -299,8 +306,31 @@ function init() {
   }
 }
 
+function updateCameraPositionOnScroll() {
+  const pageHeight = document.documentElement.scrollHeight;
+  const windowHeight = window.innerHeight;
+  const scrollableHeight = pageHeight - windowHeight;
+
+  if (scrollableHeight > 0) {
+    const scrollPosition = window.scrollY;
+    const scrollProgress = Math.min(scrollPosition / scrollableHeight, 1);
+
+    // Calculate the target Y position based on scroll progress
+    targetY = startY + (endY - startY) * scrollProgress;
+
+    if (scrollPosition > 0) {
+      // Smoothly interpolate the camera's Y position towards the targetY
+      camera.position.y += (targetY - camera.position.y) * lerpFactor;
+    }
+  }
+}
+
 function animate() {
   requestAnimationFrame(animate);
+
+  // Call the function to update camera position based on scroll
+  updateCameraPositionOnScroll();
+
   composer.render();
 
   if (isDevMode) {
