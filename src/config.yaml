@@ -1,0 +1,46 @@
+site:
+  name: ZG
+  site: 'https://zacgodinez.github.io'
+  base: '/z-god-site'
+  trailingSlash: false
+
+metadata:
+  title:
+    default: ZG.codes
+    template: '%s — ZG.codes'
+  description: "ZG.codes blog"
+  robots:
+    index: true
+    follow: true
+  openGraph:
+    site_name: ZG.codes
+    images:
+      - url: '~/assets/images/og-image-1200-628.png'
+        width: 1200
+        height: 628
+    type: website
+  twitter:
+    handle: '@zac_godinez'
+    site: '@zac_godinez'
+    cardType: summary_large_image
+
+i18n:
+  language: en
+  textDirection: ltr
+
+apps:
+  blog:
+    isEnabled: true
+    postsPerPage: 6
+
+    post:
+      isEnabled: true
+      permalink: '/%slug%' # Variables: %slug%, %year%, %month%, %day%, %hour%, %minute%, %second%, %category%
+      robots:
+        index: true
+
+    isRelatedPostsEnabled: true
+    relatedPostsCount: 4
+
+ui:
+  theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"

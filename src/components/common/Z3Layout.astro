@@ -1,0 +1,54 @@
+---
+import Logo from '~/components/common/Logo.astro';
+import { Icon } from 'astro-icon/components';
+import { getHomePermalink } from '~/utils/permalinks';
+import ToggleTheme from '~/components/common/ToggleTheme';
+
+export interface Props {
+  linkLogo?: boolean;
+}
+
+const { linkLogo = true } = Astro.props;
+---
+
+<div class="flex min-h-dvh w-full items-center justify-center md:min-h-screen md:bg-background md:px-0 md:py-20">
+  <div class="flex flex-col">
+    <div class="relative w-full max-w-xl bg-background-secondary p-4 md:p-6 md:shadow-md">
+      <div class="border border-border py-6">
+        <div class="flex w-full justify-center">
+          {
+            linkLogo ? (
+              <a class="focus-none focus:outline-0" href={getHomePermalink()}>
+                <Logo />
+              </a>
+            ) : (
+              <Logo />
+            )
+          }
+        </div>
+        <div>
+          <slot />
+        </div>
+      </div>
+    </div>
+    <div class="relative flex items-start justify-between px-4 pb-8 text-xs md:px-6 md:pb-0 md:pt-3 md:text-xs">
+      <div class="text-muted-foreground">
+        <span class="block">
+          Made with
+          <Icon name="tabler:device-desktop" class="-mt-0.5 inline-block size-4" />
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="hidden size-3">
+            <path
+              d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z"
+            ></path>
+          </svg>
+          by
+          <a href="https://x.com/zac_godinez">ZG codes</a>
+        </span>
+      </div>
+      <div class="-mt-1">
+        <ToggleTheme client:load />
+      </div>
+    </div>
+  </div>
+</div>

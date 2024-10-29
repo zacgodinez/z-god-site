@@ -1,0 +1,25 @@
+---
+import { Icon } from 'astro-icon/components';
+import { getHomePermalink } from '~/utils/permalinks';
+import { I18N } from 'astrowind:config';
+import Button from '~/components/ui/Button.astro';
+
+const { textDirection } = I18N;
+---
+
+<div class="mx-auto flex max-w-3xl px-6 pb-4 pt-2">
+  <Button href={getHomePermalink()}>
+    <span class="flex items-center">
+      <span>
+        {
+          textDirection === 'rtl' ? (
+            <Icon name="tabler:chevron-right" class="-ml-1.5 mr-1 size-5 rtl:-mr-1.5 rtl:ml-1" />
+          ) : (
+            <Icon name="tabler:chevron-left" class="-ml-1.5 mr-1 size-5 rtl:-mr-1.5 rtl:ml-1" />
+          )
+        }
+      </span>
+      <span class="uppercase"> Back </span>
+    </span>
+  </Button>
+</div>

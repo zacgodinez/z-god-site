@@ -1,0 +1,46 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Z3Layout from '~/components/common/Z3Layout.astro';
+import HomePostsItem from '~/components/blog/HomePostsItem.astro';
+import { APP_BLOG } from 'astrowind:config';
+import { findLatestPosts } from '~/utils/blog';
+
+const posts = APP_BLOG.isEnabled ? await findLatestPosts({ count: 10 }) : [];
+
+const metadata = {
+  title: "ZG.codes — This time it's personal",
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <Z3Layout linkLogo={false}>
+    <div class="px-6 pt-4">
+      <p class="text-muted-foreground">
+        <span class="block w-full text-center font-heading text-xl font-black text-foreground">
+          <span>
+            Hola,
+            <span class="text-3xl"> 👋 </span>
+            I'm ZG.
+          </span>
+        </span>
+        <br />
+        I'm a developer who is an enjooyer of creating stuff with code and building user interfaces.
+        <br /><br /> I'm currently working on an open-source crypto wallet. Check it out at <a href="https://z3us.com/"
+          >Z3US.com</a
+        >.
+        <br />
+        <br />
+        You can follow me on <a href="https://x.com/zac_godinez">X</a> and <a href="https://github.com/zacgodinez"
+          >Github</a
+        >.
+      </p>
+    </div>
+    <div class="px-6 pb-2 pt-8">
+      <h1 class="mb-2 text-center font-heading text-lg font-black uppercase">Posts</h1>
+      <ul class="zg-list flex flex-col gap-6">
+        {posts.map((post, _postIndex) => <HomePostsItem post={post} isFirst={_postIndex === 0} />)}
+      </ul>
+    </div>
+  </Z3Layout>
+</Layout>

@@ -1,0 +1,53 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  text: string;
+  url: string | URL;
+}
+
+const { text, url } = Astro.props;
+
+// Define shared class variables for the buttons and icons
+const buttonClasses = 'ml-2 rtl:ml-0 rtl:mr-2 text-muted-foreground transition-colors hover:text-foreground';
+const iconClasses = 'size-4 text-inherit transition-colors';
+---
+
+<div class="mb-2 flex items-center">
+  <span class="align-super text-sm text-muted-foreground">Share:</span>
+
+  <button
+    class={buttonClasses}
+    title="Twitter Share"
+    data-aw-social-share="twitter"
+    data-aw-url={url}
+    data-aw-text={text}
+    ><Icon name="tabler:brand-x" class={iconClasses} />
+  </button>
+
+  <button class={buttonClasses} title="Facebook Share" data-aw-social-share="facebook" data-aw-url={url}
+    ><Icon name="tabler:brand-facebook" class={iconClasses} />
+  </button>
+
+  <button
+    class={buttonClasses}
+    title="Linkedin Share"
+    data-aw-social-share="linkedin"
+    data-aw-url={url}
+    data-aw-text={text}
+    ><Icon name="tabler:brand-linkedin" class={iconClasses} />
+  </button>
+
+  <button
+    class={buttonClasses}
+    title="Whatsapp Share"
+    data-aw-social-share="whatsapp"
+    data-aw-url={url}
+    data-aw-text={text}
+    ><Icon name="tabler:brand-whatsapp" class={iconClasses} />
+  </button>
+
+  <button class={buttonClasses} title="Email Share" data-aw-social-share="mail" data-aw-url={url} data-aw-text={text}
+    ><Icon name="tabler:mail" class={iconClasses} />
+  </button>
+</div>

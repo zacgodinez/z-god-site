@@ -1,0 +1,52 @@
+---
+import { Icon } from 'astro-icon/components';
+import { tv } from 'tailwind-variants';
+import type { CallToAction as Props } from '~/types';
+
+const {
+  variant = 'primary',
+  target,
+  text = Astro.slots.render('default'),
+  icon = '',
+  class: className = '',
+  type,
+  ...rest
+} = Astro.props;
+
+const button = tv({
+  base: 'focus-none group relative transform p-0.5 font-heading font-bold no-underline transition-all duration-100 active:translate-x-1 active:translate-y-1 active:transform',
+  variants: {
+    variant: {
+      primary: 'zg-gradient hover:bg-blue-700',
+      secondary: 'bg-gray-300 text-gray-800 hover:bg-gray-400',
+      tertiary: 'bg-green-500 text-white hover:bg-green-600',
+      link: 'bg-green-500 text-white hover:bg-green-600',
+    },
+  },
+  defaultVariants: {
+    variant: 'primary',
+  },
+});
+
+const buttonClass = button({ variant, class: className });
+---
+
+{
+  type === 'button' || type === 'submit' || type === 'reset' ? (
+    <button type={type} class={buttonClass} {...rest}>
+      <span class="focus-none zg-gradient absolute left-1 top-1 size-full transition-all duration-100 group-active:left-0 group-active:top-0" />
+      <div class="relative bg-background-secondary px-4 py-2">
+        <Fragment set:html={text} />
+        {icon && <Icon name={icon} class="-mr-1.5 ml-1 inline-block size-5 rtl:-ml-1.5 rtl:mr-1" />}
+      </div>
+    </button>
+  ) : (
+    <a class={buttonClass} {...(target ? { target: target, rel: 'noopener noreferrer' } : {})} {...rest}>
+      <span class="focus-none zg-gradient absolute left-1 top-1 size-full transition-all duration-100 group-active:left-0 group-active:top-0" />
+      <div class="relative bg-background-secondary px-4 py-2">
+        <Fragment set:html={text} />
+        {icon && <Icon name={icon} class="-mr-1.5 ml-1 inline-block size-5 rtl:-ml-1.5 rtl:mr-1" />}
+      </div>
+    </a>
+  )
+}
