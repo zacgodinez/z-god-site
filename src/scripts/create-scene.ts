@@ -316,7 +316,7 @@ const createScene = (canvasId: string, isDevelopment: boolean = false) => {
         state.gridHelper.position.x = 0;
       }
 
-      state.lightSegments = state.lightSegments.filter((segment, index) => {
+      state.lightSegments = state.lightSegments.filter((segment) => {
         if (segment.rotation.y === 0) {
           segment.position.z += 0.5;
           if (segment.position.z > GRID_SIZE / 2) {
@@ -365,7 +365,6 @@ const createScene = (canvasId: string, isDevelopment: boolean = false) => {
 
   const init = () => {
     state.renderer = initRenderer();
-    console.log('getting ', 11);
     if (!state.renderer) return;
 
     setupCamera();
