@@ -60,6 +60,14 @@ const createScene = (canvasId: string, isDevelopment: boolean = false) => {
     targetY: START_Y,
   };
 
+  const getBloomIntensity = (isDarkMode: boolean): number => {
+    return isDarkMode ? 5.0 : 2.0;
+  };
+
+  const getBloomLuminanceThreshold = (isDarkMode: boolean): number => {
+    return isDarkMode ? 0.1 : 0.6;
+  };
+
   const createSegmentMaterial = () => {
     const isDarkMode = document.documentElement.classList.contains('dark');
     return new THREE.MeshStandardMaterial({
@@ -138,9 +146,9 @@ const createScene = (canvasId: string, isDevelopment: boolean = false) => {
     const bloomEffect = new BloomEffect({
       blendFunction: BlendFunction.ADD,
       kernelSize: KernelSize.HUGE,
-      luminanceThreshold: isDarkMode ? 0.1 : 0.6,
+      luminanceThreshold: getBloomLuminanceThreshold(isDarkMode),
       luminanceSmoothing: 0.8,
-      intensity: isDarkMode ? 5.0 : 1.0,
+      intensity: getBloomIntensity(isDarkMode),
     });
 
     const bloomPass = new EffectPass(state.camera, bloomEffect);
@@ -256,6 +264,20 @@ const createScene = (canvasId: string, isDevelopment: boolean = false) => {
     const observer = new MutationObserver(() => {
       updateGridHelper();
       updateSegmentMaterials();
+
+      const bloomPass = state.composer?.passes.find(
+        (pass) => pass instanceof EffectPass && pass.effects.some((effect) => effect instanceof BloomEffect)
+      ) as EffectPass;
+
+      const bloomEffect = bloomPass?.effects.find((effect) => effect instanceof BloomEffect) as BloomEffect;
+
+      if (bloomEffect) {
+        const isDarkMode = document.documentElement.classList.contains('dark');
+
+        bloomEffect.intensity = getBloomIntensity(isDarkMode);
+        bloomEffect.luminanceThreshold = getBloomLuminanceThreshold(isDarkMode);
+        bloomEffect.updateMaterial = true;
+      }
     });
 
     observer.observe(document.documentElement, {
