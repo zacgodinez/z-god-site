@@ -133,12 +133,14 @@ const createScene = (canvasId: string, isDevelopment: boolean = false) => {
     const renderPass = new RenderPass(state.scene, state.camera);
     composer.addPass(renderPass);
 
+    const isDarkMode = document.documentElement.classList.contains('dark');
+
     const bloomEffect = new BloomEffect({
       blendFunction: BlendFunction.ADD,
       kernelSize: KernelSize.HUGE,
-      luminanceThreshold: 0.1,
+      luminanceThreshold: isDarkMode ? 0.1 : 0.6,
       luminanceSmoothing: 0.8,
-      intensity: 5.0,
+      intensity: isDarkMode ? 5.0 : 1.0,
     });
 
     const bloomPass = new EffectPass(state.camera, bloomEffect);
