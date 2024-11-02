@@ -45,7 +45,7 @@ document.addEventListener('astro:before-swap', () => {
 });
 
 document.addEventListener('astro:page-load', () => {
-  if (!sceneManager[CANVAS_ID]) {
+  if (!sceneManager[CANVAS_ID] && isInitialized) {
     sceneManager[CANVAS_ID] = createScene(CANVAS_ID, isDevelopment);
     sceneManager[CANVAS_ID].init();
   }
