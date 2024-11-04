@@ -23,16 +23,6 @@ html.dark {
   animation: gradient 15s ease infinite;
 }
 
-.zg-blog-image {
-  display: block;
-}
-
-.zg-blog-image img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
 @font-face {
   font-family: 'Helvetica_LT_93_Black_Extended';
   src:

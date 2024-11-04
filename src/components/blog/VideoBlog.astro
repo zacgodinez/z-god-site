@@ -1,0 +1,21 @@
+---
+interface Props {
+  src: string;
+  width?: number | string;
+  controls?: boolean;
+  autoplay?: boolean;
+  loop?: boolean;
+  muted?: boolean;
+}
+
+const { src, width = 478, controls = true, autoplay = true, loop = true, muted = true } = Astro.props;
+
+const baseUrl: string = import.meta.env.BASE_URL;
+---
+
+<video width={width} controls={controls} autoplay={autoplay} loop={loop} muted={muted}>
+  <source src={`${baseUrl}/${src}`} type="video/mp4" />
+  Your browser does not support the video tag.
+  <br />
+  {baseUrl}
+</video>

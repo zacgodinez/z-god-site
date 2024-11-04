@@ -13,100 +13,277 @@ metadata:
   canonical: https://astrowind.vercel.app/get-started-website-with-astro-tailwind-css
 ---
 
-You have probably seen with your eyeballs 👀, the demo's of Astro websites using native browser [page transitions](https://docs.astro.build/en/guides/view-transitions/).
-You see them, and you want em'. <br />I get it, I want them too.
+import VideoBlog from '~/components/blog/VideoBlog.astro';
+import ImageBlog from '~/components/blog/ImageBlog.astro';
 
-Load the memes and **let's go**.
+You have probably seen with an eyeball or two 👀, the demo of Astro websites using native browser [page transitions](https://docs.astro.build/en/guides/view-transitions/).
+You see them, and you want em'.
 
-<div class="zg-blog-image">
-  ![Cage McCage let's go](~/assets/images/astro-with-THREEjs-and-transitions/cage-01.webp)
-</div>
+I get it, I want em' too.
+
+So how to get them to play nicely with [three.js](https://threejs.org/) in Astro?
+
+Load the memes and **let's go** work it out.
+
+<ImageBlog
+  src="posts/astro-with-THREEjs-and-transitions/cage-01.webp"
+  alt="Cage McCage let's go"
+/>
 
 ### Installing Astro
 
-The Astro docs are great, use them [here](https://docs.astro.build/en/install-and-setup/) and follow along.
+The Astro docs are great, I will be referencing them [here](https://docs.astro.build/en/install-and-setup/) throughout the tutorial.
+
 Let's install astro using the cli.
 
 ```bash
 pnpm create astro@latest
 ```
 
-Et fugiat ad nisi amet magna labore do cillum fugiat occaecat cillum Lorem proident. In sint dolor ullamco ad do adipisicing amet id excepteur Lorem aliquip sit irure veniam laborum duis cillum. Aliqua occaecat minim cillum deserunt magna sunt laboris do do irure ea nostrud consequat ut voluptate ex.
+Follow the cli prompts start and *Empty* project.
 
-```elixir title="fib.ex" showLineNumbers /palindrome/#v
-defmodule Solution do
-  @spec is_palindrome(x :: integer) :: boolean
-  def is_palindrome(x) when x < 0, do: false
-  def is_palindrome(x), do: do_is_palindrome(x, get_base_10(x, 1))
+The first things thing we will do, is setup two pages for the index and about page, and add transitions between the pages.
 
-  defp do_is_palindrome(x, b10) when b10 > 1,
-    do: get_first_digit(x, b10) == rem(x, 10) and do_is_palindrome(div(x, 10), div(b10, 100))
-
-  defp do_is_palindrome(_, _), do: true
-
-  defp get_first_digit(n, b10), do: div(n, b10) |> rem(10)
-
-  defp get_base_10(n, b10) when n >= b10, do: get_base_10(n, b10 * 10)
-  defp get_base_10(n, b10), do: div(b10, 10)
-end
+```plaintext
+src/
+├── pages/
+│   ├── index.astro
+│   └── about.astro
 ```
 
-### Highlighted
 
-Et fugiat ad nisi amet magna labore do cillum fugiat occaecat cillum Lorem proident. In sint dolor ullamco ad do adipisicing amet id excepteur Lorem aliquip sit irure veniam laborum duis cillum. Aliqua occaecat minim cillum deserunt magna sunt laboris do do irure ea nostrud consequat ut voluptate ex.
+## Astro components
 
-```go
-package main
+We will add two components to reduce some duplication on both our *index* and *about* page.
 
-import (
-    "fmt"
-    "net/http"
-)
 
-func handler(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+```typescript title="head.astro"
+---
+import { ViewTransitions } from 'astro:transitions';
+export interface Props {
+  pageTitle: string;
 }
 
-func main() {
-    http.HandleFunc("/", handler)
-    http.ListenAndServe(":8080", nil)
+const { pageTitle } = Astro.props;
+
+const BASE_URL = import.meta.env.BASE_URL
+---
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content={Astro.generator} />
+  <link rel="icon" type="image/svg+xml" href={`${BASE_URL}/favicon.svg`} />
+  <link rel="stylesheet" href={`${BASE_URL}/style.css`}>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <ViewTransitions />
+  <title>{pageTitle}</title>
+</head>
+```
+
+Take note of the [*ViewTransitions*](https://docs.astro.build/en/guides/view-transitions/) import, this is the Astro magic that will automatically handle page transitions when switching between our pages.
+
+Now let's create a component for out menu, in order to navigate between pages.
+
+
+```typescript title="menu.astro"
+---
+const BASE_URL = import.meta.env.BASE_URL
+---
+<ul class="page-menu">
+  <li>
+    <a href={`${BASE_URL}/`} class={Astro.url.pathname === `${BASE_URL}` ? "active" : ""}>
+      home
+    </a>
+  </li>
+  <li>
+    <a href={`${BASE_URL}/about/`} class={Astro.url.pathname === `${BASE_URL}/about/` ? "active" : ""}>
+      about
+    </a>
+  </li>
+</ul>
+```
+
+### Astro pages
+
+Now let's use these components `<Head />` and `<Menu />` in both out pages.
+
+
+```typescript title="index.astro"
+---
+import Menu from '../components/menu.astro';
+import Head from '../components/head.astro';
+---
+
+<html lang="en">
+  <Head pageTitle="Astro: home page" />
+	<body>
+		<div class="canvas-wrapper">
+			<canvas id="three-js-canvas" />
+		</div>
+		<div class="page-wrapper">
+			<h1 class="page-heading">Astro demo with Three.js and page transitions</h1>
+			<Menu />
+			<div class="page-box">
+				{[...Array(50)].map(() => (
+					<p>home page home page home page home page home page home page home page home page home page home page home page home page</p>
+				))}
+			</div>
+		</div>
+	</body>
+</html>
+```
+
+
+```typescript title="about.astro"
+---
+import Menu from '../components/menu.astro';
+import Head from '../components/head.astro';
+---
+
+<html lang="en">
+  <Head pageTitle="Astro: about page" />
+	<body>
+		<div class="canvas-wrapper">
+			<canvas id="three-js-canvas" />
+		</div>
+		<div class="page-wrapper">
+			<h1 class="page-heading">Astro demo with Three.js and page transitions</h1>
+			<Menu />
+			<div class="page-box">
+				{[...Array(50)].map(() => (
+					<p>about page about page about page about page about page about page about page about page about page about page about page about page</p>
+				))}
+			</div>
+		</div>
+	</body>
+</html>
+
+```
+
+### Styles
+
+Ok, at this point we have a markup for our pages, now let's add some css to make this not look like the 90's.
+
+This css file will be referenced in the `<Head />` component
+
+```bash
+<link rel="stylesheet" href={`${BASE_URL}/style.css`}>
+```
+
+<ImageBlog
+  src="posts/astro-with-THREEjs-and-transitions/some-final-css.jpg"
+  alt="Cage McCage let's go"
+/>
+
+```css title="style.css"
+body {
+	margin: 0;
+	background: #1f1f1f;
+	color: #fff;
+	box-sizing: border-box;
+	font-family: "Pixelify Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+		Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+		"Segoe UI Symbol";
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	overflow-x: hidden;
+	background-image: radial-gradient(circle, #535353 1px, transparent 1px);
+	background-size: 15px 15px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+a {
+	color: #fff;
+}
+
+#three-js-canvas {
+	position: relative;
+}
+
+.canvas-wrapper {
+	position: absolute;
+	overflow: hidden;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.page-wrapper {
+	position: relative;
+	padding: 40px;
+}
+
+.page-heading {
+	text-align: center;
+}
+
+.page-menu {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	list-style: none;
+	text-transform: uppercase;
+	gap: 20px;
+	font-size: 24px;
+}
+
+.page-menu a {
+	text-decoration: none;
+}
+
+.page-menu a.active,
+.page-menu a:hover {
+	text-decoration: underline;
+}
+
+.page-box {
+	width: 100%;
+	height: calc(100vh - 250px);
+	background: rgba(0, 0, 0, 0.5);
+	padding: 20px;
+	overflow: hidden;
+	text-align: center;
+}
+
+.page-box p {
+	font-size: 34px;
+	line-height: 34px;
 }
 ```
 
-Ex amet id ex aliquip id do laborum excepteur exercitation elit sint commodo occaecat nostrud est. Nostrud pariatur esse veniam laborum non sint magna sit laboris minim in id. Aliqua pariatur pariatur excepteur adipisicing irure culpa consequat commodo et ex id ad.
+### Page Transitions
 
-## Nostra torquent consequat volutpat aliquet neque
+Now we can view our page transitions in all their glory.
 
-Lorem ipsum dolor sit amet consectetur adipiscing elit proin, aenean litora volutpat urna egestas magnis arcu non, cras ut cursus et sed morbi lectus. Integer faucibus sagittis eu nunc urna aliquet a laoreet torquent, suspendisse penatibus nulla sollicitudin congue rutrum dictum. Ornare mi habitasse fermentum phasellus dui et morbi litora sodales dictum id erat, nibh purus class ligula aenean lectus venenatis euismod cras torquent ac. Senectus sagittis conubia hendrerit at egestas porta venenatis nisi metus gravida tempor, aenean facilisis nisl ante facilisi lacus integer hac iaculis purus. Scelerisque libero torquent egestas curae tellus viverra inceptos imperdiet urna, porta suspendisse interdum primis odio morbi tempor commodo dictumst, suscipit ornare habitasse semper feugiat cras quisque lobortis.
 
-Iaculis arcu commodo dis proin vitae himenaeos, ante tristique potenti magna ligula, sagittis libero fermentum ullamcorper sociis. Sem eros non arcu natoque fringilla lacus vestibulum lacinia integer mus viverra in proin, sagittis fusce tortor erat enim rutrum vulputate curae laoreet class diam. Inceptos convallis ac nisi natoque nam quisque magnis ut nullam fringilla curae, luctus lacus purus habitant erat magna molestie class habitasse metus, nibh lobortis tortor curabitur neque phasellus feugiat netus morbi parturient. Neque malesuada mauris justo himenaeos pharetra, ullamcorper enim ligula a nulla consequat, eget vivamus velit ridiculus.
+<VideoBlog src="posts/astro-with-THREEjs-and-transitions/transition.mp4" />
 
-## Praesent tellus ad sapien erat or
+More boar wants moar
 
-- Quam orci nostra mi nulla, hac a.
+<VideoBlog src="posts/astro-with-THREEjs-and-transitions/transition-three-js.mp4" />
 
-- Interdum iaculis quis tellus sociis orci nulla, quam rutrum conubia tortor primis.
+### Three.JS
 
-- Non felis sem placerat aenean duis, ornare turpis nostra.
+Install three.js in your astro project
 
-- Habitasse duis sociis sagittis cursus, ante dictumst commodo.
+```bash
+pnpm add three
+```
 
-Duis maecenas massa habitasse inceptos imperdiet scelerisque at condimentum ultrices, nam dui leo enim taciti varius cras habitant pretium rhoncus, ut hac euismod nostra metus sagittis mi aenean. Quam eleifend aliquet litora eget a tempor, ultricies integer vestibulum non felis sodales, eros diam massa libero iaculis.
+Once installed let's create two files `entry.ts` and `create-scene.ts`
 
-Nisl ligula ante magnis himenaeos pellentesque orci cras integer urna ut convallis, id phasellus libero est nunc ultrices eget blandit massa ac hac, morbi vulputate quisque tellus feugiat conubia luctus tincidunt curae fermentum. Venenatis dictumst tincidunt senectus vivamus duis dis sociis taciti porta primis, rhoncus ridiculus rutrum curae mattis ullamcorper ac sagittis nascetur curabitur erat, faucibus placerat vulputate eu at habitasse nulla nisl interdum. Varius turpis dignissim montes ac ante tristique quis parturient hendrerit faucibus, consequat auctor penatibus suspendisse rutrum erat nulla inceptos est justo, etiam mollis mauris facilisi cras sociosqu eu sapien sed.
 
-Blandit aptent conubia mollis mauris habitasse suspendisse torquent aenean, ac primis auctor congue cursus mi posuere molestie, velit elementum per feugiat libero dictumst phasellus. Convallis mollis taciti condimentum praesent id porttitor ac dictumst at, sed in eu eleifend vehicula fermentum lectus litora venenatis, gravida hac molestie cum sociosqu mus viverra torquent. Congue est fusce habitasse ridiculus integer suscipit platea volutpat, inceptos varius elementum pellentesque malesuada interdum magnis. Hac lacus eget enim purus massa commodo nec lectus natoque fames arcu, mattis class quam ut neque dui cras quis diam orci sed velit, erat morbi eros suscipit sagittis laoreet vivamus torquent nulla turpis.
-
-Ridiculus velit suscipit consequat auctor interdum magna gravida dictumst libero ut habitasse, sollicitudin vehicula suspendisse leo erat tristique at platea sagittis proin dignissim, id ornare scelerisque et urna maecenas congue tincidunt dictum malesuada. Dui vulputate accumsan scelerisque ridiculus dictum quisque et nam hac, tempus ultricies curabitur proin netus diam vivamus. Vestibulum ante ac auctor mi urna risus lacinia vulputate justo orci sociis dui semper, commodo morbi enim vivamus neque sem pellentesque velit donec hac metus odio. Tempor ultrices himenaeos massa sollicitudin mus conubia scelerisque cubilia, nascetur potenti mauris convallis et lectus gravida egestas sociis, erat eros ultricies aptent congue tortor ornare.
-
-Pretium aliquet sodales aliquam tincidunt litora lectus, erat dui nibh diam mus, sed hendrerit condimentum senectus arcu. Arcu a nibh auctor dapibus eros turpis tempus commodo, libero hendrerit dictum interdum mus class sed scelerisque, sapien dictumst enim magna molestie habitant donec. Fringilla dui sed curabitur commodo varius est vel, viverra primis habitant sapien montes mattis dignissim, gravida cubilia laoreet tempus aliquet senectus. Sociosqu purus praesent porttitor curae sollicitudin accumsan feugiat maecenas donec quis lacus, suscipit taciti convallis odio morbi eros nibh bibendum nunc orci. Magna cras nullam aliquam metus nibh sagittis facilisi tortor nec, mus varius curae ridiculus fames congue interdum erat urna, neque odio lobortis mi mattis diam cubilia arcu.
-
-Laoreet fusce nec class porttitor mus proin aenean, velit vestibulum feugiat porta egestas sapien posuere, conubia nisi tempus varius hendrerit tortor. Congue aliquam scelerisque neque vivamus habitasse semper mauris pellentesque accumsan posuere, suspendisse lectus gravida erat sagittis arcu praesent mus ornare. Habitasse nibh nam morbi mollis senectus erat risus, cum sollicitudin class platea congue mattis venenatis, luctus aenean parturient hendrerit malesuada ante. Mus auctor tincidunt consequat massa tortor nulla luctus habitasse vestibulum quis velit, laoreet sagittis cum facilisi in sem tellus leo vulputate vehicula bibendum orci, felis nisl blandit lacus convallis congue turpis magna facilisis condimentum.
-
-Dictumst pellentesque urna donec sociis suscipit montes consequat, commodo quam habitasse senectus fringilla maecenas, inceptos magna tristique eu nullam nam. Maecenas orci nibh hac eu tristique ut penatibus ultrices ante, pellentesque cubilia pharetra dis facilisis aliquam praesent malesuada vivamus, commodo cras velit convallis molestie nec tellus augue. Etiam ut convallis risus id dapibus platea laoreet accumsan, habitant et aenean netus inceptos iaculis per, mauris curae at ligula odio ad eu. Mauris erat tempor interdum sapien commodo per nullam tortor, fusce facilisis vehicula egestas dui nulla conubia ut fames, fringilla et tincidunt penatibus facilisi at mollis.
-
-Fermentum sociosqu litora primis sollicitudin fusce diam consequat vehicula per lobortis et, viverra sodales magna rutrum sed mollis faucibus molestie purus montes est, risus nostra congue venenatis lectus enim torquent eros dis dapibus. Dui suscipit scelerisque massa ligula euismod accumsan augue, magna vel lacus ante nullam senectus commodo, viverra cubilia eros eget penatibus tempor. Mattis mauris hac felis semper dui sociis faucibus mollis ornare pretium aliquam velit nisl, quis litora sem at vel duis rutrum imperdiet natoque viverra himenaeos tempor.
-
-Integer eu tristique purus luctus vivamus porttitor vel nisl, tortor malesuada augue vulputate diam velit pellentesque sodales, duis phasellus vestibulum fermentum leo facilisi porta. Hac porttitor cum dapibus volutpat quisque odio taciti nulla senectus mollis curae, accumsan suscipit cubilia tempor ligula in venenatis justo leo erat, magna tincidunt nullam lacinia luctus malesuada non vivamus praesent pharetra. Non quam felis montes pretium volutpat suspendisse lacus, torquent magna dictumst orci libero porta, feugiat taciti cras ridiculus aenean rutrum. Tellus nostra tincidunt hac in ligula mi vulputate venenatis pellentesque urna dui, at luctus tristique quisque vel a dignissim scelerisque platea pretium, suspendisse ante phasellus porttitor quis aliquam malesuada etiam enim nullam.
-
-Hendrerit taciti litora nec facilisis diam vehicula magnis potenti, parturient velit egestas nisl lobortis tincidunt rutrum cursus, fusce senectus mi massa primis mattis rhoncus. Accumsan est ac varius consequat vulputate, ligula cursus euismod sagittis inceptos scelerisque, lacus malesuada torquent dictumst. Volutpat morbi metus urna rhoncus nunc tempor molestie, congue curabitur quis interdum posuere. Mollis viverra velit tortor mus netus nunc molestie metus, sem massa himenaeos luctus feugiat taciti iaculis fames porttitor, leo arcu consequat gravida dapibus pulvinar elementum.
+```plaintext
+src/
+├── scripts/
+│   ├── create-scene.ts
+│   └── entry.ts
+```
