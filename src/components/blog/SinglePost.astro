@@ -19,16 +19,9 @@ const { post, url } = Astro.props;
       <div
         class="mx-auto mb-2 mt-0 flex max-w-3xl flex-col justify-between px-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:px-6"
       >
-        <p class="flex items-center gap-1">
+        <p class="flex items-center gap-2">
           <Icon name="tabler:clock" class="-mt-0.5 inline-block size-4" />
           <time datetime={String(post.publishDate)} class="inline-block">{getFormattedDate(post.publishDate)}</time>
-          {
-            post.readingTime && (
-              <>
-                · <span>{post.readingTime}</span> min read
-              </>
-            )
-          }
         </p>
       </div>
 
