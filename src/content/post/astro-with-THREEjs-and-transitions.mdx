@@ -16,10 +16,9 @@ metadata:
 import VideoBlog from '~/components/blog/VideoBlog.astro';
 import ImageBlog from '~/components/blog/ImageBlog.astro';
 
-You have probably seen with an eyeball or two 👀, the demo of Astro websites using native browser [page transitions](https://docs.astro.build/en/guides/view-transitions/).
-You see them, and you want em'.
+If you have seen the demos of [Astro](https://astro.build/) websites using native browser [page transitions](https://docs.astro.build/en/guides/view-transitions/), and thought I want them with my [THREE.js](https://threejs.org/), you are not alone.
 
-I get it, I want em' too.
+I get it, I want them too.
 
 So how to get them to play nicely with [three.js](https://threejs.org/) in Astro?
 
@@ -32,7 +31,7 @@ Load the memes and **let's go** work it out.
 
 ### Installing Astro
 
-The Astro docs are great, I will be referencing them [here](https://docs.astro.build/en/install-and-setup/) throughout the tutorial.
+Let's start with installation of Astro, the docs are [here](https://docs.astro.build/en/install-and-setup/).
 
 Let's install astro using the cli.
 
@@ -42,7 +41,7 @@ pnpm create astro@latest
 
 Follow the cli prompts start and *Empty* project.
 
-The first things thing we will do, is setup two pages for the index and about page, and add transitions between the pages.
+The first things thing we will do, is setup two pages for the index and about page, and add transitions between the two pages.
 
 ```plaintext
 src/
@@ -82,7 +81,8 @@ const BASE_URL = import.meta.env.BASE_URL
 </head>
 ```
 
-Take note of the [*ViewTransitions*](https://docs.astro.build/en/guides/view-transitions/) import, this is the Astro magic that will automatically handle page transitions when switching between our pages.
+Take note of the [ViewTransitions](https://docs.astro.build/en/guides/view-transitions/) import.
+This is the Astro magic that will automatically handle page transitions when switching between our pages.
 
 Now let's create a component for out menu, in order to navigate between pages.
 
@@ -164,7 +164,7 @@ import Head from '../components/head.astro';
 
 ### Styles
 
-Ok, at this point we have a markup for our pages, now let's add some css to make this not look like the 90's.
+Ok, at this point we have a markup for our pages, now let's add some css to make this look halfway decent.
 
 This css file will be referenced in the `<Head />` component
 
@@ -261,13 +261,13 @@ a {
 
 ### Page Transitions
 
-Now we can view our page transitions in all their glory.
+Now let's add Astro page transitions in all their glory.
 
 <VideoBlog src="posts/astro-with-THREEjs-and-transitions/transition.mp4" />
 
-Astro view transitions give us a simple fade as a default, transitions can be customized [customized](https://docs.astro.build/en/guides/view-transitions/) like this.
+Astro view transitions give us a simple fade as a default, the transitions can be [customized](https://docs.astro.build/en/guides/view-transitions/) like so:
 
-```html"
+```typescript
 ---
 import { fade } from 'astro:transitions';
 ---
@@ -279,9 +279,10 @@ import { fade } from 'astro:transitions';
 
 ### Three.JS
 
-With out two astro pages setup with transitions let's add THREE.js to the pages.
+3D time!
+With the two astro pages setup with transitions, let's add [THREE.js](https://threejs.org/) to both pages.
 
-Install three
+First step is to install [THREE.js](https://threejs.org/) on the command line.
 
 ```bash
 pnpm add three
@@ -473,7 +474,7 @@ const createScene = (canvasId: string) => {
 export default createScene;
 ```
 
-Now we will reference is file from our `entry.ts` file.
+Now we will reference this file from our `entry.ts` file.
 
 
 ```typescript title="entry.ts"
@@ -495,25 +496,23 @@ document.addEventListener("astro:page-load", () => {
 	sceneManager[CANVAS_ID] = createScene(CANVAS_ID);
 	sceneManager[CANVAS_ID].init();
 });
-
 ```
 
 
 #### astro:before-swap
 
 The important events here are both `astro:before-swap` and `astro:page-load`.
-The astro:before-swap and astro:page-load events are crucial for managing the lifecycle of your Three.js scene in an Astro context.
-WebGL context
+The `astro:before-swap` and `astro:page-load` events are crucial for managing the lifecycle of the Three.js scene.
 
 
-it’s used to clean up the existing Three.js scene, ensuring that any previously rendered resources (e.g., memory-intensive objects or animations) are properly disposed of.
+On the `astro:before-swap` we clean up the existing Three.js scene, ensuring that any previously rendered resources (e.g., memory-intensive objects or animations) are properly disposed of.
 
 
 #### astro:page-load
 
 This event fires after Astro completes loading the HTML content for a new page. You use it here to initialize your Three.js scene once the new page has loaded.
 
-As you can see here the three.js example works seemless with the page transitions.
+As you can see below the THREE.js example works nicely with the page transitions.
 
 <VideoBlog src="posts/astro-with-THREEjs-and-transitions/transition-three-js.mp4" />
 

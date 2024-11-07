@@ -23,6 +23,23 @@ html.dark {
   animation: gradient 15s ease infinite;
 }
 
+.zg-post p code {
+  box-shadow: inset 0px 0px 1px rgb(21 175 234);
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  padding: 4px 5px !important;
+  margin: 0;
+  border-radius: 6px;
+  background-clip: padding-box;
+  font-weight: 500;
+}
+
+.zg-post p code:before,
+.zg-post p code:after {
+  display: none;
+}
+
 @font-face {
   font-family: 'Helvetica_LT_93_Black_Extended';
   src:
