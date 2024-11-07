@@ -139,17 +139,21 @@ code[data-line-numbers] > [data-line]::before {
 }
 
 pre [data-line] {
-  @apply px-4 border-l-2 border-l-transparent;
+  @apply px-3 border-l-2 border-l-transparent;
 }
 
 [data-highlighted-line] {
-  background: rgba(200, 200, 255, 0.1);
-  @apply border-l-blue-400;
+  background: rgba(200, 200, 255, 0.1) !important;
+  @apply !border-l-blue-400;
+}
+
+[data-highlighted-line] span {
+  background: transparent !important;
 }
 
 [data-highlighted-chars] {
-  @apply bg-zinc-600/50 rounded;
-  box-shadow: 0 0 0 4px rgb(82 82 91 / 0.5);
+  @apply !bg-zinc-600/50 rounded;
+  box-shadow: 0 0 0 4px rgb(82 82 91 / 0.5) !important;
 }
 
 [data-chars-id] {
@@ -173,7 +177,7 @@ pre [data-line] {
 }
 
 [data-rehype-pretty-code-title] {
-  @apply bg-zinc-100 text-zinc-700 dark:bg-zinc-800 border-t border-l border-r dark:text-zinc-200 rounded-t-lg py-2 px-3 font-medium text-sm;
+  @apply bg-zinc-100 text-zinc-700 dark:bg-zinc-800 border-t border-l border-r dark:text-zinc-200 rounded-t-lg py-2 px-3 font-medium text-xs;
 }
 
 figure[data-rehype-pretty-code-figure] {
@@ -198,5 +202,5 @@ figure {
 pre,
 code,
 figure {
-  @apply overflow-x-auto !scrollbar-thin !scrollbar-thumb-zinc-200 dark:!scrollbar-thumb-zinc-700;
+  @apply overflow-x-auto !scrollbar-thin !scrollbar-thumb-zinc-200 dark:!scrollbar-thumb-zinc-700 !text-sm;
 }
