@@ -1,14 +1,14 @@
 site:
   name: ZG
   site: 'https://zacgodinez.github.io'
-  base: '/z-god-site'
+  base: '/zg-codes'
   trailingSlash: false
 
 metadata:
   title:
     default: ZG.codes
     template: '%s — ZG.codes'
-  description: "ZG.codes blog"
+  description: 'ZG.codes blog'
   robots:
     index: true
     follow: true
