@@ -27,8 +27,8 @@ const whenExternalScripts = (items = []) =>
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
-  site: 'https://zacgodinez.github.io',
-  base: '/zg-codes',
+  site: 'http://www.zg.codes',
+  base: '/',
   output: 'static',
   integrations: [
     tailwind({

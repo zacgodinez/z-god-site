@@ -1,7 +1,7 @@
 site:
   name: ZG
-  site: 'https://zacgodinez.github.io'
-  base: '/zg-codes'
+  site: 'http://www.zg.codes'
+  base: '/'
   trailingSlash: false
 
 metadata:
