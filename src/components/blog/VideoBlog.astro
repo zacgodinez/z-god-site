@@ -10,11 +10,14 @@ interface Props {
 
 const { src, width = 478, controls = true, autoplay = true, loop = true, muted = true } = Astro.props;
 
+const isDevelopment = import.meta.env.MODE === 'development';
 const baseUrl: string = import.meta.env.BASE_URL;
+const baseSite: string = import.meta.env.SITE;
+const leadingPath: string = isDevelopment ? '' : `${baseSite}${baseUrl}`;
 ---
 
 <video width={width} controls={controls} autoplay={autoplay} loop={loop} muted={muted}>
-  <source src={`${baseUrl}/${src}`} type="video/mp4" />
+  <source src={`${leadingPath}${src}`} type="video/mp4" />
   Your browser does not support the video tag.
   <br />
   {baseUrl}

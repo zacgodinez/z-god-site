@@ -10,11 +10,14 @@ interface Props {
 
 const { src, alt, className = 'zg-blog-image', caption, width, height } = Astro.props;
 
+const isDevelopment = import.meta.env.MODE === 'development';
 const baseUrl: string = import.meta.env.BASE_URL;
+const baseSite: string = import.meta.env.SITE;
+const leadingPath: string = isDevelopment ? '' : `${baseSite}${baseUrl}`;
 ---
 
 <figure class={className}>
-  <img src={`${baseUrl}/${src}`} alt={alt} loading="lazy" width={width} height={height} />
+  <img src={`${leadingPath}${src}`} alt={alt} loading="lazy" width={width} height={height} />
   {caption && <figcaption>{caption}</figcaption>}
 </figure>
 
