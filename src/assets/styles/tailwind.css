@@ -142,7 +142,7 @@ pre [data-line] {
   @apply px-3 border-l-2 border-l-transparent;
 }
 
-button.rehype-pretty-copy span {
+/* button.rehype-pretty-copy span {
   width: 100%;
   height: 100%;
 }
@@ -169,7 +169,7 @@ pre button.rehype-pretty-copy {
 
 figure[data-rehype-pretty-code-figure]:hover > pre > code button.rehype-pretty-copy {
   opacity: 1;
-}
+} */
 
 [data-highlighted-line] {
   background: rgba(200, 200, 255, 0.1) !important;
