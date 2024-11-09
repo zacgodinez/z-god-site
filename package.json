@@ -1,7 +1,7 @@
 {
-  "name": "zgod-site",
+  "name": "zg.codes",
   "version": "1.0.0",
-  "description": "Personal blog using Astro and astrowind",
+  "description": "zg.codes astro blog site",
   "type": "module",
   "engines": {
     "node": "^18.17.1 || ^20.3.0 || >= 21.0.0"

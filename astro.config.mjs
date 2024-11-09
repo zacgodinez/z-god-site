@@ -74,7 +74,6 @@ export default defineConfig({
     }),
     preact(),
   ],
-
   image: {
     domains: ['cdn.pixabay.com'],
   },
