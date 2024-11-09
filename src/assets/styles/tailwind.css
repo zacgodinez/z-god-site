@@ -148,7 +148,19 @@ button.rehype-pretty-copy span {
 }
 
 button.rehype-pretty-copy span.ready {
-  display: block !important;
+  display: block;
+}
+
+button.rehype-pretty-copy span.success {
+  display: none;
+}
+
+button.rehype-pretty-copy.rehype-pretty-copied span.success {
+  display: block;
+}
+
+button.rehype-pretty-copy.rehype-pretty-copied span.ready {
+  display: none;
 }
 
 pre button.rehype-pretty-copy {
