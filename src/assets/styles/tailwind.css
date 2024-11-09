@@ -147,6 +147,18 @@ button.rehype-pretty-copy span {
   height: 100%;
 }
 
+button.rehype-pretty-copy span.ready {
+  display: block !important;
+}
+
+pre button.rehype-pretty-copy {
+  opacity: 0;
+}
+
+figure[data-rehype-pretty-code-figure]:hover > pre > code button.rehype-pretty-copy {
+  opacity: 1;
+}
+
 [data-highlighted-line] {
   background: rgba(200, 200, 255, 0.1) !important;
   @apply !border-l-blue-400;
