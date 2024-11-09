@@ -92,7 +92,7 @@ export default defineConfig({
           },
           transformers: [
             transformerCopyButton({
-              visibility: 'hover',
+              visibility: 'always',
               feedbackDuration: 2_500,
             }),
           ],
