@@ -146,8 +146,8 @@ const createScene = (canvasId: string, isDevelopment: boolean = false) => {
     const bloomEffect = new BloomEffect({
       blendFunction: BlendFunction.ADD,
       kernelSize: KernelSize.HUGE,
-      luminanceThreshold: getBloomLuminanceThreshold(isDarkMode),
       luminanceSmoothing: 0.8,
+      luminanceThreshold: getBloomLuminanceThreshold(isDarkMode),
       intensity: getBloomIntensity(isDarkMode),
     });
 
@@ -260,24 +260,43 @@ const createScene = (canvasId: string, isDevelopment: boolean = false) => {
     state.scene.add(state.gridHelper);
   };
 
+  const disposeComposer = () => {
+    if (state.composer) {
+      state.composer.passes.forEach((pass) => {
+        if (pass instanceof EffectPass) {
+          pass.effects.forEach((effect) => {
+            if (effect instanceof BloomEffect) {
+              effect.dispose();
+            }
+          });
+        }
+        pass.dispose();
+      });
+      state.composer.dispose();
+      state.composer = null;
+    }
+  };
+
+  const updateComposer = () => {
+    // Dispose of the old composer and its passes
+    disposeComposer();
+
+    // Create a new composer
+    state.composer = initComposer();
+
+    // Update the renderer size to ensure proper scaling
+    if (state.renderer) {
+      const canvas = state.renderer.domElement;
+      state.renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+      state.composer?.setSize(canvas.clientWidth, canvas.clientHeight);
+    }
+  };
+
   const setupDarkModeObserver = () => {
     const observer = new MutationObserver(() => {
       updateGridHelper();
       updateSegmentMaterials();
-
-      const bloomPass = state.composer?.passes.find(
-        (pass) => pass instanceof EffectPass && pass.effects.some((effect) => effect instanceof BloomEffect)
-      ) as EffectPass;
-
-      const bloomEffect = bloomPass?.effects.find((effect) => effect instanceof BloomEffect) as BloomEffect;
-
-      if (bloomEffect) {
-        const isDarkMode = document.documentElement.classList.contains('dark');
-
-        bloomEffect.intensity = getBloomIntensity(isDarkMode);
-        bloomEffect.luminanceThreshold = getBloomLuminanceThreshold(isDarkMode);
-        bloomEffect.updateMaterial = true;
-      }
+      updateComposer(); // Replace the old composer update logic with the new function
     });
 
     observer.observe(document.documentElement, {
