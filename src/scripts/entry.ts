@@ -1,3 +1,4 @@
+import initAssetPreload from './preload-assets';
 import createScene from './create-scene';
 
 type SceneManager = {
@@ -13,6 +14,8 @@ const isThreeJSCached = localStorage.getItem(LOCAL_STORAGE_THREE_JS_INIT) === 't
 let isInitialized = false;
 let sceneManager: Record<string, SceneManager> = {};
 
+const preloader = initAssetPreload();
+
 const initThreeJS = () => {
   if (!isInitialized) {
     isInitialized = true;
@@ -26,16 +29,24 @@ const initThreeJS = () => {
   }
 };
 
-if (isThreeJSCached) {
+const init = () => {
   initThreeJS();
+
+  preloader.init().then((results) => {
+    console.log('All assets preloaded:', results);
+  });
+};
+
+if (isThreeJSCached) {
+  init();
 } else {
-  window.addEventListener('scroll', initThreeJS, { once: true });
-  window.addEventListener('click', initThreeJS, { once: true });
-  window.addEventListener('mousemove', initThreeJS, { once: true });
-  window.addEventListener('touchstart', initThreeJS, { once: true });
+  window.addEventListener('scroll', init, { once: true });
+  window.addEventListener('click', init, { once: true });
+  window.addEventListener('mousemove', init, { once: true });
+  window.addEventListener('touchstart', init, { once: true });
 
   setTimeout(() => {
-    initThreeJS();
+    init();
   }, 3000);
 }
 
