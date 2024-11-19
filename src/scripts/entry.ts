@@ -32,9 +32,9 @@ const initThreeJS = () => {
 const init = () => {
   initThreeJS();
 
-  preloader.init().then((results) => {
-    console.log('All assets preloaded:', results);
-  });
+  // preloader.init().then((results) => {
+  //   console.log('All assets preloaded:', results);
+  // });
 };
 
 if (isThreeJSCached) {
