@@ -53,6 +53,56 @@ export default [
         },
       ],
       '@typescript-eslint/no-non-null-assertion': 'off',
+
+      complexity: ['warn', { max: 10 }], // Warn when code complexity exceeds 10
+
+      // Uppercase Constants
+      'no-restricted-syntax': [
+        'warn',
+        {
+          selector: "VariableDeclarator[init.type='Literal'][id.name!=/^[A-Z_]+$/]",
+          message: 'Constants should be in uppercase with underscores.',
+        },
+      ],
+
+      // No Comments
+      'no-warning-comments': ['warn', { terms: ['todo', 'fixme', 'xxx'], location: 'start' }],
+
+      // Short Functions/Methods
+      'max-lines-per-function': ['warn', { max: 30, skipComments: true }], // Warn if a function exceeds 30 lines
+
+      // Descriptive Naming
+      'id-length': [
+        'warn',
+        { min: 3, exceptions: ['i', 'j', 'x', 'y', '_'] }, // Warn if variable names are shorter than 3 characters
+      ],
+
+      // Avoid Magic Numbers
+      'no-magic-numbers': ['warn', { ignore: [0, 1, -1], ignoreArrayIndexes: true, enforceConst: true }],
+
+      // Limit File Line Length (200-500 max)
+      'max-lines': [
+        'warn',
+        {
+          max: 400, // Set max file length to 400 lines
+          skipBlankLines: true,
+          skipComments: true,
+        },
+      ],
+
+      // Avoid Deep Loops
+      'max-depth': ['warn', 3], // Already added for nesting
+
+      // Consistent Indentation and Formatting
+      indent: ['warn', 2], // Enforce 2-space indentation
+      // 'prettier/prettier': 'warn', // Add Prettier plugin for consistent formatting
+
+      // Immutable Variables
+      'prefer-const': 'warn', // Prefer `const` where variables are never reassigned
+      'no-var': 'warn', // Disallow `var`
+
+      // Avoid Using `else`
+      'no-else-return': 'warn', // Suggest avoiding `else` after `return`
     },
   },
   {

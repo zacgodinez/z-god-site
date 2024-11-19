@@ -15,7 +15,8 @@
     "astro": "astro",
     "format": "prettier -w .",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@astrojs/preact": "^3.5.3",
