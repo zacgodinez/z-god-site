@@ -37,28 +37,28 @@
     "preact": "^10.24.3",
     "rehype-pretty-code": "^0.14.0",
     "rehype-prism-plus": "^2.0.0",
-    "shiki": "^1.22.2",
+    "shiki": "^1.23.1",
     "stats.js": "^0.17.0",
     "tailwind-variants": "^0.2.1",
     "three": "^0.170.0",
-    "unpic": "^3.19.0"
+    "unpic": "^3.20.0"
   },
   "devDependencies": {
     "@astrojs/mdx": "4.0.0-beta.2",
     "@astrojs/partytown": "^2.1.2",
     "@astrojs/tailwind": "5.1.2",
-    "@eslint/js": "^9.14.0",
+    "@eslint/js": "^9.15.0",
     "@iconify-json/flat-color-icons": "^1.2.0",
-    "@iconify-json/tabler": "^1.2.7",
+    "@iconify-json/tabler": "^1.2.8",
     "@tailwindcss/typography": "^0.5.15",
     "@types/eslint__js": "^8.42.3",
     "@types/js-yaml": "^4.0.9",
     "@types/lodash.merge": "^4.6.9",
     "@types/three": "^0.169.0",
-    "@typescript-eslint/eslint-plugin": "^8.13.0",
-    "@typescript-eslint/parser": "^8.13.0",
+    "@typescript-eslint/eslint-plugin": "^8.15.0",
+    "@typescript-eslint/parser": "^8.15.0",
     "astro-compress": "2.3.5",
-    "astro-eslint-parser": "^1.0.3",
+    "astro-eslint-parser": "^1.1.0",
     "eslint": "9.14.0",
     "eslint-plugin-astro": "^1.3.1",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -73,8 +73,8 @@
     "sharp": "0.33.5",
     "tailwind-merge": "^2.5.4",
     "tailwind-scrollbar": "^3.1.0",
-    "tailwindcss": "^3.4.14",
+    "tailwindcss": "^3.4.15",
     "typescript": "^5.6.3",
-    "typescript-eslint": "^8.13.0"
+    "typescript-eslint": "^8.15.0"
   }
 }
