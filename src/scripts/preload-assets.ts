@@ -1,8 +1,6 @@
 const initAssetPreload = () => {
-  // Keep track of loaded assets and their status
   const loadedAssets = new Map();
 
-  // Helper to create a promise for each asset type
   const createLoader = (url, type) => {
     return new Promise((resolve, reject) => {
       if (type === 'mp4') {
@@ -20,16 +18,13 @@ const initAssetPreload = () => {
     });
   };
 
-  // Main preload function
   const preloadAsset = async (url) => {
-    // Skip if already loaded or loading
     if (loadedAssets.has(url)) {
       return loadedAssets.get(url);
     }
 
     const fileExtension = url.split('.').pop().toLowerCase();
 
-    // Create and store the loading promise
     const loadingPromise = createLoader(url, fileExtension)
       .then((loadedUrl) => {
         loadedAssets.set(url, { status: 'loaded', url: loadedUrl });
@@ -44,11 +39,9 @@ const initAssetPreload = () => {
     return loadingPromise;
   };
 
-  // Batch preload multiple assets
   const preloadAssets = async (urls, { concurrent = 3 } = {}) => {
     const results = [];
 
-    // Process URLs in chunks to control concurrency
     for (let i = 0; i < urls.length; i += concurrent) {
       const chunk = urls.slice(i, i + concurrent);
       const chunkPromises = chunk.map((url) =>
@@ -63,11 +56,8 @@ const initAssetPreload = () => {
     return results;
   };
 
-  // Find all assets in public/posts directory
   const findAssets = async () => {
     try {
-      // You'll need to implement this based on your Astro setup
-      // This is just a placeholder example
       const assetFiles = await import.meta.glob('/public/posts/**/*.{webp,png,mp4}');
       return Object.keys(assetFiles).map((path) => path.replace('/public', ''));
     } catch (error) {
@@ -76,7 +66,6 @@ const initAssetPreload = () => {
     }
   };
 
-  // Initialize preloading
   const init = async () => {
     try {
       const assets = await findAssets();
