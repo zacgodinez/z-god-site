@@ -31,10 +31,6 @@ const initThreeJS = () => {
 
 const init = () => {
   initThreeJS();
-
-  // preloader.init().then((results) => {
-  //   console.log('All assets preloaded:', results);
-  // });
 };
 
 if (isThreeJSCached) {
@@ -48,6 +44,10 @@ if (isThreeJSCached) {
   setTimeout(() => {
     init();
   }, 3000);
+
+  preloader.init().then((results) => {
+    console.log('All assets preloaded:', results);
+  });
 }
 
 document.addEventListener('astro:before-swap', () => {
