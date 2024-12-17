@@ -3,15 +3,21 @@ import astroEslintParser from 'astro-eslint-parser';
 import eslintPluginAstro from 'eslint-plugin-astro';
 import globals from 'globals';
 import js from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import tsEslint from 'typescript-eslint';
 import typescriptParser from '@typescript-eslint/parser';
+import prettier from 'eslint-config-prettier';
+import prettierPlugin from 'eslint-plugin-prettier';
 
 export default [
   js.configs.recommended,
   ...tailwind.configs['flat/recommended'],
   ...eslintPluginAstro.configs['flat/recommended'],
-  ...tseslint.configs.recommended,
+  ...tsEslint.configs.recommended,
+  prettier, // Add Prettier configuration to disable conflicting ESLint rules
   {
+    plugins: {
+      prettier: prettierPlugin, // Add Prettier plugin
+    },
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -36,14 +42,11 @@ export default [
     },
   },
   {
-    // Define the configuration for `<script>` tag.
-    // Script in `<script>` is assigned a virtual file name with the `.js` extension.
     files: ['**/*.{ts,tsx}', '**/*.astro/*.js'],
     languageOptions: {
       parser: typescriptParser,
     },
     rules: {
-      // Note: you must disable the base rule as it can report incorrect errors
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -54,9 +57,8 @@ export default [
       ],
       '@typescript-eslint/no-non-null-assertion': 'off',
 
-      complexity: ['warn', { max: 10 }], // Warn when code complexity exceeds 10
+      complexity: ['warn', { max: 10 }],
 
-      // Uppercase Constants
       'no-restricted-syntax': [
         'warn',
         {
@@ -65,38 +67,29 @@ export default [
         },
       ],
 
-      // No Comments
       'no-warning-comments': ['warn', { terms: ['todo', 'fixme', 'xxx'], location: 'start' }],
 
-      // Short Functions/Methods
-      'max-lines-per-function': ['warn', { max: 30, skipComments: true }], // Warn if a function exceeds 30 lines
+      'max-lines-per-function': ['warn', { max: 30, skipComments: true }],
 
-      // Avoid Magic Numbers
       'no-magic-numbers': ['warn', { ignore: [0, 1, -1], ignoreArrayIndexes: true, enforceConst: true }],
 
-      // Limit File Line Length (200-500 max)
       'max-lines': [
         'warn',
         {
-          max: 400, // Set max file length to 400 lines
+          max: 400,
           skipBlankLines: true,
           skipComments: true,
         },
       ],
 
-      // Avoid Deep Loops
-      'max-depth': ['warn', 3], // Already added for nesting
+      'max-depth': ['warn', 3],
 
-      // Consistent Indentation and Formatting
-      indent: ['warn', 2], // Enforce 2-space indentation
-      // 'prettier/prettier': 'warn', // Add Prettier plugin for consistent formatting
+      // Add Prettier rule to run formatting as an ESLint rule
+      'prettier/prettier': 'warn',
 
-      // Immutable Variables
-      'prefer-const': 'warn', // Prefer `const` where variables are never reassigned
-      'no-var': 'warn', // Disallow `var`
-
-      // Avoid Using `else`
-      'no-else-return': 'warn', // Suggest avoiding `else` after `return`
+      'prefer-const': 'warn',
+      'no-var': 'warn',
+      'no-else-return': 'warn',
     },
   },
   {
