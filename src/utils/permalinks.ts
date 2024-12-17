@@ -39,59 +39,46 @@ export const getCanonical = (path = ''): string | URL => {
 };
 
 export const getPermalink = (slug = '', type = 'page'): string => {
-  let permalink: string;
+  if (isExternalLink(slug)) return slug;
 
-  if (
+  const permalink = generatePermalink(slug, type);
+  return definitivePermalink(permalink);
+};
+
+const isExternalLink = (slug: string): boolean => {
+  return (
     slug.startsWith('https://') ||
     slug.startsWith('http://') ||
     slug.startsWith('://') ||
     slug.startsWith('#') ||
     slug.startsWith('javascript:')
-  ) {
-    return slug;
-  }
-
-  switch (type) {
-    case 'home':
-      permalink = getHomePermalink();
-      break;
-
-    case 'blog':
-      permalink = getBlogPermalink();
-      break;
-
-    case 'asset':
-      permalink = getAsset(slug);
-      break;
-
-    case 'category':
-      permalink = createPath(CATEGORY_BASE, trimSlash(slug));
-      break;
-
-    case 'tag':
-      permalink = createPath(TAG_BASE, trimSlash(slug));
-      break;
-
-    case 'post':
-      permalink = createPath(trimSlash(slug));
-      break;
-
-    case 'page':
-    default:
-      permalink = createPath(slug);
-      break;
-  }
-
-  return definitivePermalink(permalink);
+  );
 };
 
-/** */
+const generatePermalink = (slug: string, type: string): string => {
+  switch (type) {
+    case 'home':
+      return getHomePermalink();
+    case 'blog':
+      return getBlogPermalink();
+    case 'asset':
+      return getAsset(slug);
+    case 'category':
+      return createPath(CATEGORY_BASE, trimSlash(slug));
+    case 'tag':
+      return createPath(TAG_BASE, trimSlash(slug));
+    case 'post':
+      return createPath(trimSlash(slug));
+    case 'page':
+    default:
+      return createPath(slug);
+  }
+};
+
 export const getHomePermalink = (): string => getPermalink('/');
 
-/** */
 export const getBlogPermalink = (): string => getPermalink(BLOG_BASE);
 
-/** */
 export const getAsset = (path: string): string =>
   '/' +
   [BASE_PATHNAME, path]
@@ -99,10 +86,8 @@ export const getAsset = (path: string): string =>
     .filter((el) => !!el)
     .join('/');
 
-/** */
 const definitivePermalink = (permalink: string): string => createPath(BASE_PATHNAME, permalink);
 
-/** */
 export const applyGetPermalinks = (menu: object = {}) => {
   if (Array.isArray(menu)) {
     return menu.map((item) => applyGetPermalinks(item));
