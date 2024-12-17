@@ -38,7 +38,6 @@ export const getCanonical = (path = ''): string | URL => {
   return url;
 };
 
-/** */
 export const getPermalink = (slug = '', type = 'page'): string => {
   let permalink: string;
 

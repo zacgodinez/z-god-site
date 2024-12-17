@@ -71,12 +71,6 @@ export default [
       // Short Functions/Methods
       'max-lines-per-function': ['warn', { max: 30, skipComments: true }], // Warn if a function exceeds 30 lines
 
-      // Descriptive Naming
-      'id-length': [
-        'warn',
-        { min: 3, exceptions: ['i', 'j', 'x', 'y', '_'] }, // Warn if variable names are shorter than 3 characters
-      ],
-
       // Avoid Magic Numbers
       'no-magic-numbers': ['warn', { ignore: [0, 1, -1], ignoreArrayIndexes: true, enforceConst: true }],
 

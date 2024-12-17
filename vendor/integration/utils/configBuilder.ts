@@ -1,6 +1,7 @@
 import merge from 'lodash.merge';
 
 import type { MetaData } from '~/types';
+import { GET_APP_BLOG_DEFAULTS } from './defaults';
 
 type Config = {
   site?: SiteConfig;
@@ -129,46 +130,7 @@ const getI18N = (config: Config) => {
 };
 
 const getAppBlog = (config: Config) => {
-  const _default = {
-    isEnabled: false,
-    postsPerPage: 6,
-    isRelatedPostsEnabled: false,
-    relatedPostsCount: 4,
-    post: {
-      isEnabled: true,
-      permalink: '/blog/%slug%',
-      robots: {
-        index: true,
-        follow: true,
-      },
-    },
-    list: {
-      isEnabled: true,
-      pathname: 'blog',
-      robots: {
-        index: true,
-        follow: true,
-      },
-    },
-    category: {
-      isEnabled: true,
-      pathname: 'category',
-      robots: {
-        index: true,
-        follow: true,
-      },
-    },
-    tag: {
-      isEnabled: true,
-      pathname: 'tag',
-      robots: {
-        index: false,
-        follow: true,
-      },
-    },
-  };
-
-  return merge({}, _default, config?.apps?.blog ?? {}) as AppBlogConfig;
+  return merge({}, GET_APP_BLOG_DEFAULTS, config?.apps?.blog ?? {}) as AppBlogConfig;
 };
 
 const getUI = (config: Config) => {
