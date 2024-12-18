@@ -20,7 +20,6 @@ export interface ImageProps extends Omit<HTMLAttributes<'img'>, 'src'> {
   srcset?: string | null;
   sizes?: string | null;
   fetchpriority?: 'high' | 'low' | 'auto' | null;
-
   layout?: Layout;
   widths?: number[] | null;
   aspectRatio?: string | number | null;
@@ -33,9 +32,7 @@ export type ImagesOptimizer = (
   height?: number
 ) => Promise<Array<{ src: string; width: number }>>;
 
-/* ******* */
 const config = {
-  // FIXME: Use this when image.width is minor than deviceSizes
   imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
 
   deviceSizes: [
@@ -81,24 +78,17 @@ const parseAspectRatio = (aspectRatio: number | string | null | undefined): numb
   return undefined;
 };
 
-/**
- * Gets the `sizes` attribute for an image, based on the layout and width
- */
 export const getSizes = (width?: number, layout?: Layout): string | undefined => {
   if (!width || !layout) {
     return undefined;
   }
   switch (layout) {
-    // If screen is wider than the max size, image width is the max size,
-    // otherwise it's the width of the screen
     case `constrained`:
       return `(min-width: ${width}px) ${width}px, 100vw`;
 
-    // Image is always the same width, whatever the size of the screen
     case `fixed`:
       return `${width}px`;
 
-    // Image is always the width of the screen
     case `fullWidth`:
       return `100vw`;
 
@@ -259,7 +249,6 @@ export const unpicOptimizer: ImagesOptimizer = async (image, breakpoints, width,
   );
 };
 
-/* ** */
 export async function getImagesOptimized(
   image: ImageMetadata | string,
   { src: _, width, height, sizes, aspectRatio, widths, layout = 'constrained', style = '', ...rest }: ImageProps,
