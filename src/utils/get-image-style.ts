@@ -51,18 +51,21 @@ export const getStyle = ({
   objectPosition = 'center',
   background,
 }: StyleParams): string => {
+  let backgroundStyles = {};
+  if (background?.match(/^(https?:|data:)/)) {
+    backgroundStyles = {
+      'background-image': `url(${background})`,
+      'background-size': 'cover',
+      'background-repeat': 'no-repeat',
+    };
+  } else if (background) {
+    backgroundStyles = { background };
+  }
+
   const baseStyles = {
     'object-fit': objectFit,
     'object-position': objectPosition,
-    ...(background?.match(/^(https?:|data:)/)
-      ? {
-          'background-image': `url(${background})`,
-          'background-size': 'cover',
-          'background-repeat': 'no-repeat',
-        }
-      : background
-        ? { background }
-        : {}),
+    ...backgroundStyles,
     ...(LAYOUT_CONFIGS[layout as keyof typeof LAYOUT_CONFIGS] || {})({ width, height, aspectRatio }),
   };
 

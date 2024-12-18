@@ -56,9 +56,9 @@ export default [
         },
       ],
       '@typescript-eslint/no-non-null-assertion': 'off',
-
       complexity: ['warn', { max: 10 }],
-
+      'max-depth': ['warn', 1],
+      'no-nested-ternary': 'error',
       'no-restricted-syntax': [
         'warn',
         {
@@ -69,7 +69,7 @@ export default [
 
       'no-warning-comments': ['warn', { terms: ['todo', 'fixme', 'xxx'], location: 'start' }],
 
-      'max-lines-per-function': ['warn', { max: 30, skipComments: true }],
+      'max-lines-per-function': ['warn', { max: 35, skipComments: true }],
 
       'no-magic-numbers': ['warn', { ignore: [0, 1, -1], ignoreArrayIndexes: true, enforceConst: true }],
 
@@ -82,11 +82,8 @@ export default [
         },
       ],
 
-      'max-depth': ['warn', 3],
-
       // Add Prettier rule to run formatting as an ESLint rule
       'prettier/prettier': 'warn',
-
       'prefer-const': 'warn',
       'no-var': 'warn',
       'no-else-return': 'warn',
