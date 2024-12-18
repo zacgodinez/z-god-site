@@ -214,19 +214,26 @@ const calculateDimensionsForNonString = (image, width, height) => {
   return { width, height };
 };
 
+// eslint-disable-next-line complexity
 const calculateDimensionsFromAspectRatio = (width, height, aspectRatio, layout) => {
-  if (aspectRatio) {
-    if (width) {
-      height ||= width / aspectRatio;
-    } else if (height) {
-      width = Number(height * aspectRatio);
-    } else if (layout !== 'fullWidth') {
-      throw new Error('When aspectRatio is set, either width or height must also be set');
-    }
-  } else if (width && height) {
-    aspectRatio = width / height;
-  } else if (layout !== 'fullWidth') {
+  if (aspectRatio && !width && !height && layout !== 'fullWidth') {
+    throw new Error('When aspectRatio is set, either width or height must also be set');
+  }
+
+  if (!aspectRatio && !width && !height && layout !== 'fullWidth') {
     throw new Error('Either aspectRatio or both width and height must be set');
+  }
+
+  if (aspectRatio && width) {
+    height ||= width / aspectRatio;
+  }
+
+  if (aspectRatio && height && !width) {
+    width = Number(height * aspectRatio);
+  }
+
+  if (!aspectRatio && width && height) {
+    aspectRatio = width / height;
   }
 
   return { width, height, aspectRatio };
