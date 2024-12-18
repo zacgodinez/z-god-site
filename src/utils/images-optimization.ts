@@ -32,28 +32,43 @@ export type ImagesOptimizer = (
   height?: number
 ) => Promise<Array<{ src: string; width: number }>>;
 
+const ImageSizes = {
+  THUMBNAIL: 16,
+  EXTRA_SMALL: 32,
+  SMALL: 48,
+  MEDIUM: 64,
+  LARGE: 96,
+  EXTRA_LARGE: 128,
+  HERO: 256,
+  FULL_WIDTH: 384,
+};
+
+const DeviceSizes = {
+  MOBILE_SMALL: 640, // Older and lower-end phones
+  IPHONE_6_8: 750, // iPhone 6-8
+  IPHONE_XR_11: 828, // iPhone XR/11
+  MOBILE_HORIZONTAL: 960, // Older horizontal phones
+  IPHONE_PLUS: 1080, // iPhone 6-8 Plus
+  HD_720P: 1280, // 720p
+  IPAD_STANDARD: 1668, // Various iPads
+  FULL_HD: 1920, // 1080p
+  QXGA: 2048, // Quad Extended Graphics Array
+  WQXGA: 2560, // Wide Quad Extended Graphics Array
+  QHD_PLUS: 3200, // Quad High Definition Plus
+  FOUR_K: 3840, // 4K Resolution
+  FOUR_POINT_FIVE_K: 4480, // 4.5K Resolution
+  FIVE_K: 5120, // 5K Resolution
+  SIX_K: 6016, // 6K Resolution
+};
+
+const ImageFormats = {
+  WEBP: 'image/webp',
+};
+
 const config = {
-  imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-
-  deviceSizes: [
-    640, // older and lower-end phones
-    750, // iPhone 6-8
-    828, // iPhone XR/11
-    960, // older horizontal phones
-    1080, // iPhone 6-8 Plus
-    1280, // 720p
-    1668, // Various iPads
-    1920, // 1080p
-    2048, // QXGA
-    2560, // WQXGA
-    3200, // QHD+
-    3840, // 4K
-    4480, // 4.5K
-    5120, // 5K
-    6016, // 6K
-  ],
-
-  formats: ['image/webp'],
+  imageSizes: Object.values(ImageSizes),
+  deviceSizes: Object.values(DeviceSizes),
+  formats: [ImageFormats.WEBP],
 };
 
 const computeHeight = (width: number, aspectRatio: number) => {
@@ -183,7 +198,8 @@ const getBreakpoints = ({
   if (!width) {
     return [];
   }
-  const doubleWidth = width * 2;
+  const DOUBLE_WIDTH_MULTIPLIER = 2;
+  const doubleWidth = width * DOUBLE_WIDTH_MULTIPLIER;
   if (layout === 'fixed') {
     return [width, doubleWidth];
   }
@@ -200,7 +216,6 @@ const getBreakpoints = ({
   return [];
 };
 
-/* ** */
 export const astroAsseetsOptimizer: ImagesOptimizer = async (image, breakpoints, _width, _height) => {
   if (!image) {
     return [];
@@ -221,7 +236,6 @@ export const isUnpicCompatible = (image: string) => {
   return typeof parseUrl(image) !== 'undefined';
 };
 
-/* ** */
 export const unpicOptimizer: ImagesOptimizer = async (image, breakpoints, width, height) => {
   if (!image || typeof image !== 'string') {
     return [];
