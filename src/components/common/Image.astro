@@ -2,9 +2,9 @@
 import { findImage } from '~/utils/images';
 import {
   getImagesOptimized,
-  astroAsseetsOptimizer,
-  unpicOptimizer,
-  isUnpicCompatible,
+  astroAssetsOptimizer,
+  unPicOptimizer,
+  isUnPicCompatible,
   type ImageProps,
   type AttributesProps,
 } from '~/utils/images-optimization';
@@ -44,11 +44,11 @@ let image: ImageType | undefined = undefined;
 if (
   typeof _image === 'string' &&
   (_image.startsWith('http://') || _image.startsWith('https://')) &&
-  isUnpicCompatible(_image)
+  isUnPicCompatible(_image)
 ) {
-  image = await getImagesOptimized(_image, props, unpicOptimizer);
+  image = await getImagesOptimized(_image, props, unPicOptimizer);
 } else if (_image) {
-  image = await getImagesOptimized(_image, props, astroAsseetsOptimizer);
+  image = await getImagesOptimized(_image, props, astroAssetsOptimizer);
 }
 ---
 

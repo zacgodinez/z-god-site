@@ -1,5 +1,6 @@
 import { getImage } from 'astro:assets';
 import { transformUrl, parseUrl } from 'unpic';
+import { getStyle } from './get-image-style';
 
 import type { ImageMetadata } from 'astro';
 import type { HTMLAttributes } from 'astro/types';
@@ -112,77 +113,6 @@ export const getSizes = (width?: number, layout?: Layout): string | undefined =>
   }
 };
 
-const pixelate = (value?: number) => (value || value === 0 ? `${value}px` : undefined);
-
-const getStyle = ({
-  width,
-  height,
-  aspectRatio,
-  layout,
-  objectFit = 'cover',
-  objectPosition = 'center',
-  background,
-}: {
-  width?: number;
-  height?: number;
-  aspectRatio?: number;
-  objectFit?: string;
-  objectPosition?: string;
-  layout?: string;
-  background?: string;
-}) => {
-  const styleEntries: Array<[prop: string, value: string | undefined]> = [
-    ['object-fit', objectFit],
-    ['object-position', objectPosition],
-  ];
-
-  // If background is a URL, set it to cover the image and not repeat
-  if (background?.startsWith('https:') || background?.startsWith('http:') || background?.startsWith('data:')) {
-    styleEntries.push(['background-image', `url(${background})`]);
-    styleEntries.push(['background-size', 'cover']);
-    styleEntries.push(['background-repeat', 'no-repeat']);
-  } else {
-    styleEntries.push(['background', background]);
-  }
-  if (layout === 'fixed') {
-    styleEntries.push(['width', pixelate(width)]);
-    styleEntries.push(['height', pixelate(height)]);
-    styleEntries.push(['object-position', 'top left']);
-  }
-  if (layout === 'constrained') {
-    styleEntries.push(['max-width', pixelate(width)]);
-    styleEntries.push(['max-height', pixelate(height)]);
-    styleEntries.push(['aspect-ratio', aspectRatio ? `${aspectRatio}` : undefined]);
-    styleEntries.push(['width', '100%']);
-  }
-  if (layout === 'fullWidth') {
-    styleEntries.push(['width', '100%']);
-    styleEntries.push(['aspect-ratio', aspectRatio ? `${aspectRatio}` : undefined]);
-    styleEntries.push(['height', pixelate(height)]);
-  }
-  if (layout === 'responsive') {
-    styleEntries.push(['width', '100%']);
-    styleEntries.push(['height', 'auto']);
-    styleEntries.push(['aspect-ratio', aspectRatio ? `${aspectRatio}` : undefined]);
-  }
-  if (layout === 'contained') {
-    styleEntries.push(['max-width', '100%']);
-    styleEntries.push(['max-height', '100%']);
-    styleEntries.push(['object-fit', 'contain']);
-    styleEntries.push(['aspect-ratio', aspectRatio ? `${aspectRatio}` : undefined]);
-  }
-  if (layout === 'cover') {
-    styleEntries.push(['max-width', '100%']);
-    styleEntries.push(['max-height', '100%']);
-  }
-
-  const styles = Object.fromEntries(styleEntries.filter(([, value]) => value));
-
-  return Object.entries(styles)
-    .map(([key, value]) => `${key}: ${value};`)
-    .join(' ');
-};
-
 const getBreakpoints = ({
   width,
   breakpoints,
@@ -204,19 +134,13 @@ const getBreakpoints = ({
     return [width, doubleWidth];
   }
   if (layout === 'constrained') {
-    return [
-      // Always include the image at 1x and 2x the specified width
-      width,
-      doubleWidth,
-      // Filter out any resolutions that are larger than the double-res image
-      ...(breakpoints || config.deviceSizes).filter((w) => w < doubleWidth),
-    ];
+    return [width, doubleWidth, ...(breakpoints || config.deviceSizes).filter((w) => w < doubleWidth)];
   }
 
   return [];
 };
 
-export const astroAsseetsOptimizer: ImagesOptimizer = async (image, breakpoints, _width, _height) => {
+export const astroAssetsOptimizer: ImagesOptimizer = async (image, breakpoints, _width, _height) => {
   if (!image) {
     return [];
   }
@@ -232,11 +156,11 @@ export const astroAsseetsOptimizer: ImagesOptimizer = async (image, breakpoints,
   );
 };
 
-export const isUnpicCompatible = (image: string) => {
+export const isUnPicCompatible = (image: string) => {
   return typeof parseUrl(image) !== 'undefined';
 };
 
-export const unpicOptimizer: ImagesOptimizer = async (image, breakpoints, width, height) => {
+export const unPicOptimizer: ImagesOptimizer = async (image, breakpoints, width, height) => {
   if (!image || typeof image !== 'string') {
     return [];
   }
@@ -263,65 +187,83 @@ export const unpicOptimizer: ImagesOptimizer = async (image, breakpoints, width,
   );
 };
 
-export async function getImagesOptimized(
-  image: ImageMetadata | string,
-  { src: _, width, height, sizes, aspectRatio, widths, layout = 'constrained', style = '', ...rest }: ImageProps,
-  transform: ImagesOptimizer = () => Promise.resolve([])
-): Promise<{ src: string; attributes: AttributesProps }> {
+const calculateDimensionsForNonString = (image, width, height) => {
+  width ||= Number(image.width) || undefined;
+  height ||= typeof width === 'number' ? computeHeight(width, image.width / image.height) : undefined;
+  return { width, height };
+};
+
+const calculateDimensionsFromAspectRatio = (width, height, aspectRatio, layout) => {
+  if (aspectRatio) {
+    if (width) {
+      height ||= width / aspectRatio;
+    } else if (height) {
+      width = Number(height * aspectRatio);
+    } else if (layout !== 'fullWidth') {
+      throw new Error('When aspectRatio is set, either width or height must also be set');
+    }
+  } else if (width && height) {
+    aspectRatio = width / height;
+  } else if (layout !== 'fullWidth') {
+    throw new Error('Either aspectRatio or both width and height must be set');
+  }
+
+  return { width, height, aspectRatio };
+};
+
+const calculateDimensions = (image, width, height, aspectRatio, layout) => {
   if (typeof image !== 'string') {
-    width ||= Number(image.width) || undefined;
-    height ||= typeof width === 'number' ? computeHeight(width, image.width / image.height) : undefined;
+    ({ width, height } = calculateDimensionsForNonString(image, width, height));
   }
 
   width = (width && Number(width)) || undefined;
   height = (height && Number(height)) || undefined;
 
-  widths ||= config.deviceSizes;
-  sizes ||= getSizes(Number(width) || undefined, layout);
-  aspectRatio = parseAspectRatio(aspectRatio);
+  return calculateDimensionsFromAspectRatio(width, height, aspectRatio, layout);
+};
 
-  // Calculate dimensions from aspect ratio
-  if (aspectRatio) {
-    if (width) {
-      if (height) {
-        /* empty */
-      } else {
-        height = width / aspectRatio;
-      }
-    } else if (height) {
-      width = Number(height * aspectRatio);
-    } else if (layout !== 'fullWidth') {
-      // Fullwidth images have 100% width, so aspectRatio is applicable
-      console.error('When aspectRatio is set, either width or height must also be set');
-      console.error('Image', image);
-    }
-  } else if (width && height) {
-    aspectRatio = width / height;
-  } else if (layout !== 'fullWidth') {
-    // Fullwidth images don't need dimensions
-    console.error('Either aspectRatio or both width and height must be set');
-    console.error('Image', image);
-  }
-
-  let breakpoints = getBreakpoints({ width: width, breakpoints: widths, layout: layout });
-  breakpoints = [...new Set(breakpoints)].sort((a, b) => a - b);
-
-  const srcset = (await transform(image, breakpoints, Number(width) || undefined, Number(height) || undefined))
+const getBreakpointsAndSrcset = async (image, breakpoints, width, height, transform) => {
+  const uniqueBreakpoints = [...new Set(breakpoints)].sort((a, b) => a - b);
+  return (await transform(image, uniqueBreakpoints, Number(width) || undefined, Number(height) || undefined))
     .map(({ src, width }) => `${src} ${width}w`)
     .join(', ');
+};
+
+const processImageProperties = (image, options) => {
+  const { width, height, aspectRatio, layout = 'constrained', widths, sizes } = options;
+
+  const {
+    width: finalWidth,
+    height: finalHeight,
+    aspectRatio: finalAspectRatio,
+  } = calculateDimensions(image, width, height, parseAspectRatio(aspectRatio), layout);
+
+  const finalWidths = widths || config.deviceSizes;
+  const finalSizes = sizes || getSizes(Number(finalWidth) || undefined, layout);
+
+  return { finalWidth, finalHeight, finalAspectRatio, finalWidths, finalSizes };
+};
+
+export async function getImagesOptimized(image, options, transform = () => Promise.resolve([])) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { src: _, style = '', ...rest } = options;
+  const { finalWidth, finalHeight, finalAspectRatio, finalWidths, finalSizes } = processImageProperties(image, options);
+
+  const breakpoints = getBreakpoints({ width: finalWidth, breakpoints: finalWidths, layout: options.layout });
+  const srcset = await getBreakpointsAndSrcset(image, breakpoints, finalWidth, finalHeight, transform);
 
   return {
     src: typeof image === 'string' ? image : image.src,
     attributes: {
-      width: width,
-      height: height,
+      width: finalWidth,
+      height: finalHeight,
       srcset: srcset || undefined,
-      sizes: sizes,
+      sizes: finalSizes,
       style: `${getStyle({
-        width: width,
-        height: height,
-        aspectRatio: aspectRatio,
-        layout: layout,
+        width: finalWidth,
+        height: finalHeight,
+        aspectRatio: finalAspectRatio,
+        layout: options.layout,
       })}${style ?? ''}`,
       ...rest,
     },
