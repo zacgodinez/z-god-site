@@ -62,7 +62,7 @@ export default [
       'no-restricted-syntax': [
         'warn',
         {
-          selector: "VariableDeclarator[init.type='Literal'][id.name!=/^[A-Z_]+$/]",
+          selector: "VariableDeclaration[kind='const'] > VariableDeclarator[init.type='Literal'][id.name!=/^[A-Z_]+$/]",
           message: 'Constants should be in uppercase with underscores.',
         },
       ],

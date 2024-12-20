@@ -273,6 +273,7 @@ const processImageProperties = (image, options) => {
 };
 
 export async function getImagesOptimized(image, options, transform = () => Promise.resolve([])) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { src, style = '', ...rest } = options;
   const { finalWidth, finalHeight, finalAspectRatio, finalWidths, finalSizes } = processImageProperties(image, options);
 

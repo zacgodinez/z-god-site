@@ -22,6 +22,13 @@ export interface NormalizedDates {
   updateDate?: Date;
 }
 
+const SCORE_POSTS_INCREMENT = 5;
+const LATESTS_POSTS_COUNT = 4;
+const RELATED_POSTS_COUNT = 4;
+const YEAR_LENGTH = 4;
+const MONTH_DAY_LENGTH = 2;
+const HOUR_MINUTE_SECOND_LENGTH = 2;
+
 const generatePermalink = async ({
   id,
   slug,
@@ -33,12 +40,12 @@ const generatePermalink = async ({
   publishDate: Date;
   category: string | undefined;
 }) => {
-  const year = String(publishDate.getFullYear()).padStart(4, '0');
-  const month = String(publishDate.getMonth() + 1).padStart(2, '0');
-  const day = String(publishDate.getDate()).padStart(2, '0');
-  const hour = String(publishDate.getHours()).padStart(2, '0');
-  const minute = String(publishDate.getMinutes()).padStart(2, '0');
-  const second = String(publishDate.getSeconds()).padStart(2, '0');
+  const year = String(publishDate.getFullYear()).padStart(YEAR_LENGTH, '0');
+  const month = String(publishDate.getMonth() + 1).padStart(MONTH_DAY_LENGTH, '0');
+  const day = String(publishDate.getDate()).padStart(MONTH_DAY_LENGTH, '0');
+  const hour = String(publishDate.getHours()).padStart(HOUR_MINUTE_SECOND_LENGTH, '0');
+  const minute = String(publishDate.getMinutes()).padStart(HOUR_MINUTE_SECOND_LENGTH, '0');
+  const second = String(publishDate.getSeconds()).padStart(HOUR_MINUTE_SECOND_LENGTH, '0');
 
   const permalink = POST_PERMALINK_PATTERN.replace('%slug%', slug)
     .replace('%id%', id)
@@ -182,11 +189,9 @@ export const findPostsByIds = async (ids: Array<string>): Promise<Array<Post>> =
   }, []);
 };
 
-export const findLatestPosts = async ({ count }: { count?: number }): Promise<Array<Post>> => {
-  const _count = count || 4;
+export const findLatestPosts = async ({ count = LATESTS_POSTS_COUNT }: { count?: number }): Promise<Array<Post>> => {
   const posts = await fetchPosts();
-
-  return posts ? posts.slice(0, _count) : [];
+  return posts ? posts.slice(0, count) : [];
 };
 
 export const getStaticPathsBlogList = async ({ paginate }: { paginate }) => {
@@ -256,37 +261,37 @@ export const getStaticPathsBlogTag = async ({ paginate }: { paginate }) => {
   );
 };
 
-export async function getRelatedPosts(originalPost: Post, maxResults: number = 4): Promise<Post[]> {
+export async function getRelatedPosts(originalPost: Post, maxResults: number = RELATED_POSTS_COUNT): Promise<Post[]> {
   const allPosts = await fetchPosts();
   const originalTagsSet = new Set(originalPost.tags ? originalPost.tags.map((tag) => tag.slug) : []);
 
   const postsWithScores = allPosts.reduce((acc: { post: Post; score: number }[], iteratedPost: Post) => {
     if (iteratedPost.slug === originalPost.slug) return acc;
 
-    let score = 0;
+    let SCORE = 0;
     if (iteratedPost.category && originalPost.category && iteratedPost.category.slug === originalPost.category.slug) {
-      score += 5;
+      SCORE += SCORE_POSTS_INCREMENT;
     }
 
     if (iteratedPost.tags) {
       iteratedPost.tags.forEach((tag) => {
         if (originalTagsSet.has(tag.slug)) {
-          score += 1;
+          SCORE += 1;
         }
       });
     }
 
-    acc.push({ post: iteratedPost, score });
+    acc.push({ post: iteratedPost, score: SCORE });
     return acc;
   }, []);
 
   postsWithScores.sort((a, b) => b.score - a.score);
 
   const selectedPosts: Post[] = [];
-  let i = 0;
-  while (selectedPosts.length < maxResults && i < postsWithScores.length) {
-    selectedPosts.push(postsWithScores[i].post);
-    i++;
+  let postsIterator = 0;
+  while (selectedPosts.length < maxResults && postsIterator < postsWithScores.length) {
+    selectedPosts.push(postsWithScores[postsIterator].post);
+    postsIterator++;
   }
 
   return selectedPosts;
