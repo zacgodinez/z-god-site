@@ -27,10 +27,10 @@ export interface ImageProps extends Omit<HTMLAttributes<'img'>, 'src'> {
 }
 
 export type ImagesOptimizer = (
-  image: ImageMetadata | string,
-  breakpoints: number[],
-  width?: number,
-  height?: number
+  imageInput: ImageMetadata | string,
+  breakpointsList: number[],
+  widthInput?: number,
+  heightInput?: number
 ) => Promise<Array<{ src: string; width: number }>>;
 
 const ImageSizes = {
@@ -161,14 +161,14 @@ const getBreakpoints = ({
   return [];
 };
 
-export const astroAssetsOptimizer: ImagesOptimizer = async (image, breakpoints, _width, _height) => {
-  if (!image) {
+export const astroAssetsOptimizer: ImagesOptimizer = async (imageInput, breakpointsList) => {
+  if (!imageInput) {
     return [];
   }
 
   return Promise.all(
-    breakpoints.map(async (w: number) => {
-      const url = (await getImage({ src: image, width: w, inferSize: true })).src;
+    breakpointsList.map(async (w: number) => {
+      const url = (await getImage({ src: imageInput, width: w, inferSize: true })).src;
       return {
         src: url,
         width: w,
@@ -273,8 +273,7 @@ const processImageProperties = (image, options) => {
 };
 
 export async function getImagesOptimized(image, options, transform = () => Promise.resolve([])) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { src: _, style = '', ...rest } = options;
+  const { src, style = '', ...rest } = options;
   const { finalWidth, finalHeight, finalAspectRatio, finalWidths, finalSizes } = processImageProperties(image, options);
 
   const breakpoints = getBreakpoints({ width: finalWidth, breakpoints: finalWidths, layout: options.layout });
