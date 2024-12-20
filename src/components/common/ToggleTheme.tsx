@@ -10,13 +10,31 @@ export default function ToggleTheme() {
     localStorage.setItem(LOCAL_STORAGE_THEME, value);
   };
 
+  const themeOptions = useMemo(
+    () => [
+      { value: 'light', label: 'Light' },
+      { value: 'dark', label: 'Dark' },
+      { value: 'system', label: 'System' },
+    ],
+    []
+  );
+
   const loadFromLocalStorage = () => {
     const storedValue = localStorage.getItem(LOCAL_STORAGE_THEME);
-    if (storedValue) {
-      const foundOption = themeOptions.find((option) => option.value === storedValue);
-      if (foundOption) {
-        setSelectedOption(foundOption);
-      }
+    if (!storedValue) return;
+
+    const foundOption = themeOptions.find((option) => option.value === storedValue);
+    if (foundOption) {
+      setSelectedOption(foundOption);
+    }
+  };
+
+  const setSystemTheme = () => {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
   };
 
@@ -26,12 +44,7 @@ export default function ToggleTheme() {
     } else if (theme === 'light') {
       document.documentElement.classList.remove('dark');
     } else if (theme === 'system') {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (prefersDark) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
+      setSystemTheme();
     }
   };
 
@@ -40,15 +53,6 @@ export default function ToggleTheme() {
     saveToLocalStorage(opt.value);
     setTheme(opt.value);
   };
-
-  const themeOptions = useMemo(
-    () => [
-      { value: 'light', label: 'Light' },
-      { value: 'dark', label: 'Dark' },
-      { value: 'system', label: 'System' },
-    ],
-    []
-  );
 
   useEffect(() => {
     loadFromLocalStorage();

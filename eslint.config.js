@@ -13,10 +13,10 @@ export default [
   ...tailwind.configs['flat/recommended'],
   ...eslintPluginAstro.configs['flat/recommended'],
   ...tsEslint.configs.recommended,
-  prettier, // Add Prettier configuration to disable conflicting ESLint rules
+  prettier,
   {
     plugins: {
-      prettier: prettierPlugin, // Add Prettier plugin
+      prettier: prettierPlugin,
     },
     languageOptions: {
       globals: {
@@ -47,6 +47,7 @@ export default [
       parser: typescriptParser,
     },
     rules: {
+      'no-use-before-define': ['warn', { functions: true, classes: true }],
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -67,7 +68,7 @@ export default [
         },
       ],
       'no-warning-comments': ['warn', { terms: ['todo', 'fixme', 'xxx'], location: 'start' }],
-      'max-lines-per-function': ['warn', { max: 35, skipComments: true }],
+      'max-lines-per-function': ['warn', { max: 40, skipComments: true }],
       'no-magic-numbers': ['warn', { ignore: [0, 1, -1], ignoreArrayIndexes: true, enforceConst: true }],
       'max-lines': [
         'warn',
