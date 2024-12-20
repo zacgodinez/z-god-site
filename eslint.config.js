@@ -47,7 +47,7 @@ export default [
       parser: typescriptParser,
     },
     rules: {
-      'no-unused-vars': 'off',
+      'no-unused-vars': 'error',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -66,13 +66,9 @@ export default [
           message: 'Constants should be in uppercase with underscores.',
         },
       ],
-
       'no-warning-comments': ['warn', { terms: ['todo', 'fixme', 'xxx'], location: 'start' }],
-
       'max-lines-per-function': ['warn', { max: 35, skipComments: true }],
-
       'no-magic-numbers': ['warn', { ignore: [0, 1, -1], ignoreArrayIndexes: true, enforceConst: true }],
-
       'max-lines': [
         'warn',
         {
@@ -81,9 +77,6 @@ export default [
           skipComments: true,
         },
       ],
-
-      // Add Prettier rule to run formatting as an ESLint rule
-      'prettier/prettier': 'warn',
       'prefer-const': 'warn',
       'no-var': 'warn',
       'no-else-return': 'warn',
