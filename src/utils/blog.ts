@@ -4,6 +4,24 @@ import type { Post } from '~/types';
 import { APP_BLOG } from 'astrowind:config';
 import { cleanSlug, trimSlash, BLOG_BASE, POST_PERMALINK_PATTERN, CATEGORY_BASE, TAG_BASE } from './permalinks';
 
+export interface PostData {
+  publishDate?: Date;
+  updateDate?: Date;
+  title: string;
+  excerpt?: string;
+  image?: string;
+  tags?: string[];
+  category?: string;
+  author?: string;
+  draft?: boolean;
+  metadata?: Record<string, unknown>;
+}
+
+export interface NormalizedDates {
+  publishDate: Date;
+  updateDate?: Date;
+}
+
 const generatePermalink = async ({
   id,
   slug,
@@ -39,62 +57,66 @@ const generatePermalink = async ({
     .join('/');
 };
 
+const normalizePostDates = (rawPublishDate: Date = new Date(), rawUpdateDate?: Date): NormalizedDates => ({
+  publishDate: new Date(rawPublishDate),
+  updateDate: rawUpdateDate ? new Date(rawUpdateDate) : undefined,
+});
+
+const normalizePostCategory = (rawCategory?: string) => {
+  if (!rawCategory) return undefined;
+  return {
+    slug: cleanSlug(rawCategory),
+    title: rawCategory,
+  };
+};
+
+const normalizePostTags = (rawTags: string[] = []) => {
+  return rawTags.map((tag) => ({
+    slug: cleanSlug(tag),
+    title: tag,
+  }));
+};
+
+const createPostMetadata = async (
+  id: string,
+  rawSlug: string,
+  category: ReturnType<typeof normalizePostCategory>,
+  dates: NormalizedDates
+) => {
+  const slug = cleanSlug(rawSlug);
+  const permalink = await generatePermalink({
+    id,
+    slug,
+    publishDate: dates.publishDate,
+    category: category?.slug,
+  });
+
+  return { slug, permalink };
+};
+
 const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> => {
   const { id, slug: rawSlug = '', data } = post;
   const { Content, remarkPluginFrontmatter } = await post.render();
 
-  const {
-    publishDate: rawPublishDate = new Date(),
-    updateDate: rawUpdateDate,
-    title,
-    excerpt,
-    image,
-    tags: rawTags = [],
-    category: rawCategory,
-    author,
-    draft = false,
-    metadata = {},
-  } = data;
-
-  const slug = cleanSlug(rawSlug); // cleanSlug(rawSlug.split('/').pop());
-  const publishDate = new Date(rawPublishDate);
-  const updateDate = rawUpdateDate ? new Date(rawUpdateDate) : undefined;
-
-  const category = rawCategory
-    ? {
-        slug: cleanSlug(rawCategory),
-        title: rawCategory,
-      }
-    : undefined;
-
-  const tags = rawTags.map((tag: string) => ({
-    slug: cleanSlug(tag),
-    title: tag,
-  }));
+  const dates = normalizePostDates(data.publishDate, data.updateDate);
+  const category = normalizePostCategory(data.category);
+  const tags = normalizePostTags(data.tags);
+  const { slug, permalink } = await createPostMetadata(id, rawSlug, category, dates);
 
   return {
-    id: id,
-    slug: slug,
-    permalink: await generatePermalink({ id, slug, publishDate, category: category?.slug }),
-
-    publishDate: publishDate,
-    updateDate: updateDate,
-
-    title: title,
-    excerpt: excerpt,
-    image: image,
-
-    category: category,
-    tags: tags,
-    author: author,
-
-    draft: draft,
-
-    metadata,
-
-    Content: Content,
-    // or 'content' in case you consume from API
-
+    id,
+    slug,
+    permalink,
+    ...dates,
+    title: data.title,
+    excerpt: data.excerpt,
+    image: data.image,
+    category,
+    tags,
+    author: data.author,
+    draft: data.draft ?? false,
+    metadata: data.metadata ?? {},
+    Content,
     readingTime: remarkPluginFrontmatter?.readingTime,
   };
 };
@@ -112,7 +134,6 @@ const load = async function (): Promise<Array<Post>> {
 
 let _posts: Array<Post>;
 
-/** */
 export const isBlogEnabled = APP_BLOG.isEnabled;
 export const isRelatedPostsEnabled = APP_BLOG.isRelatedPostsEnabled;
 export const isBlogListRouteEnabled = APP_BLOG.list.isEnabled;
@@ -127,7 +148,6 @@ export const blogTagRobots = APP_BLOG.tag.robots;
 
 export const blogPostsPerPage = APP_BLOG?.postsPerPage;
 
-/** */
 export const fetchPosts = async (): Promise<Array<Post>> => {
   if (!_posts) {
     _posts = await load();
@@ -136,7 +156,6 @@ export const fetchPosts = async (): Promise<Array<Post>> => {
   return _posts;
 };
 
-/** */
 export const findPostsBySlugs = async (slugs: Array<string>): Promise<Array<Post>> => {
   if (!Array.isArray(slugs)) return [];
 
@@ -150,7 +169,6 @@ export const findPostsBySlugs = async (slugs: Array<string>): Promise<Array<Post
   }, []);
 };
 
-/** */
 export const findPostsByIds = async (ids: Array<string>): Promise<Array<Post>> => {
   if (!Array.isArray(ids)) return [];
 
@@ -164,7 +182,6 @@ export const findPostsByIds = async (ids: Array<string>): Promise<Array<Post>> =
   }, []);
 };
 
-/** */
 export const findLatestPosts = async ({ count }: { count?: number }): Promise<Array<Post>> => {
   const _count = count || 4;
   const posts = await fetchPosts();
@@ -172,7 +189,6 @@ export const findLatestPosts = async ({ count }: { count?: number }): Promise<Ar
   return posts ? posts.slice(0, _count) : [];
 };
 
-/** */
 export const getStaticPathsBlogList = async ({ paginate }: { paginate }) => {
   if (!isBlogEnabled || !isBlogListRouteEnabled) return [];
   return paginate(await fetchPosts(), {
@@ -181,7 +197,6 @@ export const getStaticPathsBlogList = async ({ paginate }: { paginate }) => {
   });
 };
 
-/** */
 export const getStaticPathsBlogPost = async () => {
   if (!isBlogEnabled || !isBlogPostRouteEnabled) return [];
   return (await fetchPosts()).flatMap((post) => ({

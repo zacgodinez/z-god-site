@@ -15,7 +15,7 @@ import { UI } from 'astrowind:config';
     applyTheme(defaultTheme.replace(':only', ''));
   } else if (
     localStorage.theme === 'dark' ||
-    (localStorage.theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches) || // Handle system preference
+    (localStorage.theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches) ||
     (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
   ) {
     applyTheme('dark');
