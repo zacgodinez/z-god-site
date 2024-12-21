@@ -26,22 +26,6 @@ export default [
     },
   },
   {
-    files: ['**/*.astro'],
-    languageOptions: {
-      parser: astroEslintParser,
-      parserOptions: {
-        parser: '@typescript-eslint/parser',
-        extraFileExtensions: ['.astro'],
-      },
-    },
-  },
-  {
-    files: ['**/*.{js,jsx,astro}'],
-    rules: {
-      'no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
-    },
-  },
-  {
     files: ['**/*.{ts,tsx}', '**/*.astro/*.js'],
     languageOptions: {
       parser: typescriptParser,
@@ -59,6 +43,7 @@ export default [
       '@typescript-eslint/no-non-null-assertion': 'off',
       complexity: ['warn', { max: 10 }],
       'max-depth': ['warn', 1],
+      'no-undef': 'error',
       'no-nested-ternary': 'error',
       'no-restricted-syntax': [
         'warn',
@@ -73,7 +58,7 @@ export default [
       'max-lines': [
         'warn',
         {
-          max: 300,
+          max: 280,
           skipBlankLines: true,
           skipComments: true,
         },
@@ -84,12 +69,30 @@ export default [
     },
   },
   {
+    files: ['**/*.astro'],
+    languageOptions: {
+      parser: astroEslintParser,
+      parserOptions: {
+        parser: '@typescript-eslint/parser',
+        extraFileExtensions: ['.astro'],
+      },
+    },
+  },
+  {
+    files: ['**/*.{js,jsx,tsx,astro}'],
+    rules: {
+      'no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
+      'max-lines-per-function': 'off',
+    },
+  },
+  {
     files: ['**/*.d.ts'],
     languageOptions: {
       parser: typescriptParser,
     },
     rules: {
-      'no-use-before-define': 'off', // Turn off the rule for declaration files
+      'no-use-before-define': 'off',
+      'no-undef': 'off',
     },
   },
   {
