@@ -1,40 +1,41 @@
 import { z, defineCollection } from 'astro:content';
 
+const createRobotsSchema = () =>
+  z
+    .object({
+      index: z.boolean().optional(),
+      follow: z.boolean().optional(),
+    })
+    .optional();
+
+const createOpenGraphSchema = () =>
+  z
+    .object({
+      url: z.string().optional(),
+      siteName: z.string().optional(),
+      images: z
+        .array(
+          z.object({
+            url: z.string(),
+            width: z.number().optional(),
+            height: z.number().optional(),
+          })
+        )
+        .optional(),
+      locale: z.string().optional(),
+      type: z.string().optional(),
+    })
+    .optional();
+
 const metadataDefinition = () =>
   z
     .object({
       title: z.string().optional(),
       ignoreTitleTemplate: z.boolean().optional(),
-
       canonical: z.string().url().optional(),
-
-      robots: z
-        .object({
-          index: z.boolean().optional(),
-          follow: z.boolean().optional(),
-        })
-        .optional(),
-
+      robots: createRobotsSchema(),
       description: z.string().optional(),
-
-      openGraph: z
-        .object({
-          url: z.string().optional(),
-          siteName: z.string().optional(),
-          images: z
-            .array(
-              z.object({
-                url: z.string(),
-                width: z.number().optional(),
-                height: z.number().optional(),
-              })
-            )
-            .optional(),
-          locale: z.string().optional(),
-          type: z.string().optional(),
-        })
-        .optional(),
-
+      openGraph: createOpenGraphSchema(),
       twitter: z
         .object({
           handle: z.string().optional(),
@@ -66,3 +67,5 @@ const postCollection = defineCollection({
 export const collections = {
   post: postCollection,
 };
+
+export { metadataDefinition };

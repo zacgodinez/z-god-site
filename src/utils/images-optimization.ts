@@ -76,6 +76,23 @@ const computeHeight = (width: number, aspectRatio: number) => {
   return Math.floor(width / aspectRatio);
 };
 
+const parseRatioString = (aspectRatio: string): number | undefined => {
+  const match = aspectRatio.match(/(\d+)\s*[/:]\s*(\d+)/);
+  if (!match) {
+    return undefined;
+  }
+
+  const num = Number(match[1]);
+  const den = Number(match[2]);
+
+  return den && !isNaN(num) ? num / den : undefined;
+};
+
+const parseNumericValue = (aspectRatio: string): number | undefined => {
+  const numericValue = parseFloat(aspectRatio);
+  return !isNaN(numericValue) ? numericValue : undefined;
+};
+
 const parseAspectRatio = (aspectRatio: number | string | null | undefined): number | undefined => {
   if (typeof aspectRatio === 'number') {
     return aspectRatio;
@@ -96,23 +113,6 @@ const parseAspectRatio = (aspectRatio: number | string | null | undefined): numb
   }
 
   return undefined;
-};
-
-const parseRatioString = (aspectRatio: string): number | undefined => {
-  const match = aspectRatio.match(/(\d+)\s*[/:]\s*(\d+)/);
-  if (!match) {
-    return undefined;
-  }
-
-  const num = Number(match[1]);
-  const den = Number(match[2]);
-
-  return den && !isNaN(num) ? num / den : undefined;
-};
-
-const parseNumericValue = (aspectRatio: string): number | undefined => {
-  const numericValue = parseFloat(aspectRatio);
-  return !isNaN(numericValue) ? numericValue : undefined;
 };
 
 export const getSizes = (width?: number, layout?: Layout): string | undefined => {

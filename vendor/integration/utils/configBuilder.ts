@@ -3,30 +3,13 @@ import merge from 'lodash.merge';
 import type { MetaData } from '~/types';
 import { GET_APP_BLOG_DEFAULTS } from './defaults';
 
-type Config = {
-  site?: SiteConfig;
-  metadata?: MetaDataConfig;
-  i18n?: I18NConfig;
-  apps?: {
-    blog?: AppBlogConfig;
-  };
-  ui?: unknown;
-  analytics?: unknown;
-};
-
-export interface SiteConfig {
-  name: string;
-  site?: string;
-  base?: string;
-  trailingSlash?: boolean;
-  googleSiteVerificationId?: string;
-}
 export interface MetaDataConfig extends Omit<MetaData, 'title'> {
   title?: {
     default: string;
     template: string;
   };
 }
+
 export interface I18NConfig {
   language: string;
   textDirection: string;
@@ -70,6 +53,25 @@ export interface AppBlogConfig {
     };
   };
 }
+export interface SiteConfig {
+  name: string;
+  site?: string;
+  base?: string;
+  trailingSlash?: boolean;
+  googleSiteVerificationId?: string;
+}
+
+type Config = {
+  site?: SiteConfig;
+  metadata?: MetaDataConfig;
+  i18n?: I18NConfig;
+  apps?: {
+    blog?: AppBlogConfig;
+  };
+  ui?: unknown;
+  analytics?: unknown;
+};
+
 export interface AnalyticsConfig {
   vendors: {
     googleAnalytics: {

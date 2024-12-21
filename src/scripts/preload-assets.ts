@@ -1,7 +1,5 @@
 const CONCURRENT_REQUESTS = 3;
 
-const createLoader = (url, type) => (type === 'mp4' ? createVideoLoader(url) : createImageLoader(url));
-
 const createVideoLoader = (url) =>
   new Promise((resolve, reject) => {
     const video = document.createElement('video');
@@ -18,6 +16,8 @@ const createImageLoader = (url) =>
     img.onload = () => resolve(url);
     img.onerror = () => reject(`Failed to load image: ${url}`);
   });
+
+const createLoader = (url, type) => (type === 'mp4' ? createVideoLoader(url) : createImageLoader(url));
 
 const getFileExtension = (url) => url.split('.').pop().toLowerCase();
 

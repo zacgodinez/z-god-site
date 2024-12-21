@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import slugify from 'limax';
 
 import { SITE, APP_BLOG } from 'astrowind:config';
@@ -38,13 +39,6 @@ export const getCanonical = (path = ''): string | URL => {
   return url;
 };
 
-export const getPermalink = (slug = '', type = 'page'): string => {
-  if (isExternalLink(slug)) return slug;
-
-  const permalink = generatePermalink(slug, type);
-  return definitivePermalink(permalink);
-};
-
 const isExternalLink = (slug: string): boolean => {
   return (
     slug.startsWith('https://') ||
@@ -53,6 +47,26 @@ const isExternalLink = (slug: string): boolean => {
     slug.startsWith('#') ||
     slug.startsWith('javascript:')
   );
+};
+
+const definitivePermalink = (permalink: string): string => createPath(BASE_PATHNAME, permalink);
+
+export const getAsset = (path: string): string =>
+  '/' +
+  [BASE_PATHNAME, path]
+    .map((el) => trimSlash(el))
+    .filter((el) => !!el)
+    .join('/');
+
+export const getBlogPermalink = (): string => getPermalink(BLOG_BASE);
+
+export const getHomePermalink = (): string => getPermalink('/');
+
+export const getPermalink = (slug = '', type = 'page'): string => {
+  if (isExternalLink(slug)) return slug;
+
+  const permalink = generatePermalink(slug, type);
+  return definitivePermalink(permalink);
 };
 
 const generatePermalink = (slug: string, type: string): string => {
@@ -74,16 +88,3 @@ const generatePermalink = (slug: string, type: string): string => {
       return createPath(slug);
   }
 };
-
-export const getHomePermalink = (): string => getPermalink('/');
-
-export const getBlogPermalink = (): string => getPermalink(BLOG_BASE);
-
-export const getAsset = (path: string): string =>
-  '/' +
-  [BASE_PATHNAME, path]
-    .map((el) => trimSlash(el))
-    .filter((el) => !!el)
-    .join('/');
-
-const definitivePermalink = (permalink: string): string => createPath(BASE_PATHNAME, permalink);
