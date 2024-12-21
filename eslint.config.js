@@ -84,6 +84,15 @@ export default [
     },
   },
   {
+    files: ['**/*.d.ts'],
+    languageOptions: {
+      parser: typescriptParser,
+    },
+    rules: {
+      'no-use-before-define': 'off', // Turn off the rule for declaration files
+    },
+  },
+  {
     ignores: ['dist', 'node_modules', '.github', 'types.generated.d.ts', '.astro'],
   },
 ];
